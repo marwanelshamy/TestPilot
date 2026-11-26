@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "testpilot/execution-finished/v1",
+  "title": "ExecutionFinished",
+  "description": "Runner Worker -> Core Backend (Execution Event Listener). Queue: execution.events. Carries RAW runner output only; the worker never decides PASSED/FAILED. The Execution Orchestrator validates junitXml and is the only writer of status (ASR-3, ADR-006). A message for an execution that is already terminal is ignored (idempotent by executionId).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["messageId", "schemaVersion", "type", "executionId", "workerId", "outcome", "sentAt"],
+  "properties": {
+    "messageId": { "type": "string", "format": "uuid" },
+    "schemaVersion": { "const": 1 },
+    "type": { "const": "ExecutionFinished" },
+    "executionId": { "type": "string", "format": "uuid" },
+    "workerId": { "type": "string", "maxLength": 64 },
+    "outcome": {
+      "description": "COMPLETED = sandbox exited on its own; TIMEOUT = killed at the time limit; RESOURCE_LIMIT = killed for memory (OOM); ERROR = the worker could not run the sandbox",
+      "enum": ["COMPLETED", "TIMEOUT", "RESOURCE_LIMIT", "ERROR"]
+    },
+    "exitCode": { "type": ["integer", "null"] },
+    "junitXml": { "type": ["string", "null"], "maxLength": 262144 },
+    "stdout": { "type": "string", "maxLength": 65536 },
+    "stderr": { "type": "string", "maxLength": 65536 },
+    "truncated": { "type": "boolean", "default": false },
+    "errorDetail": { "type": ["string", "null"], "maxLength": 2000 },
+    "durationMs": { "type": "integer", "minimum": 0 },
+    "sentAt": { "type": "string", "format": "date-time" }
+  }
+}

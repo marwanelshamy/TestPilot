@@ -1,0 +1,85 @@
+# TestPilot AI — one-command run (M3 requirement):  docker compose up --build
+# Matches the M2 Deployment view (§3.5) and ADR-003. Service Dockerfiles are added in Phase 2.
+# Networks: "edge" (browser-facing), "internal" (no published ports except web-ui and dev tools).
+
+name: testpilot
+
+services:
+  web-ui:
+    build: ./web-ui
+    ports: ["8080:80"]                 # the only port users need
+    depends_on: [core-backend]
+    networks: [edge, internal]
+
+  core-backend:
+    build: ./core-backend
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://testpilot:${POSTGRES_PASSWORD}@postgres:5432/testpilot
+      AMQP_URL: amqp://testpilot:${RABBITMQ_PASSWORD}@rabbitmq:5672/
+      AI_SERVICE_URL: http://ai-service:8001
+    depends_on:
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+    networks: [internal]
+
+  ai-service:
+    build: ./ai-service
+    env_file: .env                     # LLM_PROVIDER, LLM_API_KEY (never committed, C-08)
+    networks: [internal, egress]       # egress only so the adapter can reach the hosted LLM
+    # NOTE: no DATABASE_URL — the AI service has no database access (ASR-3)
+
+  runner-worker:
+    build: ./runner-worker
+    env_file: .env
+    environment:
+      AMQP_URL: amqp://testpilot:${RABBITMQ_PASSWORD}@rabbitmq:5672/
+      SANDBOX_IMAGE: testpilot-sandbox:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock   # trusted worker only (risk R-009); never mounted into sandboxes
+    depends_on:
+      rabbitmq: { condition: service_healthy }
+      sandbox-image: { condition: service_completed_successfully }
+    deploy:
+      replicas: 2                      # competing consumers (ASR-4); scale with --scale runner-worker=N
+    networks: [internal]
+    # NOTE: no DATABASE_URL — runners cannot reach the database (ASR-1, ASR-3)
+
+  sandbox-image:                       # builds the Test Sandbox image once, then exits; sandboxes are started per run by the worker
+    build: ./sandbox-image
+    image: testpilot-sandbox:latest
+    command: ["true"]
+    network_mode: none
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: testpilot
+      POSTGRES_USER: testpilot
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U testpilot"]
+      interval: 5s
+      retries: 10
+    networks: [internal]
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: testpilot
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports: ["15672:15672"]             # management UI for the demo / evidence
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      retries: 10
+    networks: [internal]
+
+networks:
+  edge: {}
+  internal: { internal: true }         # no internet from internal containers
+  egress: {}
+
+volumes:
+  pgdata: {}

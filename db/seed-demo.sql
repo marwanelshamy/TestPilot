@@ -1,0 +1,12 @@
+-- Demo accounts for the M3 README (one per role). Password for all: see README "Demo accounts".
+-- password_hash values are generated in Phase 2 by core-backend/scripts/seed.py (bcrypt);
+-- this file only fixes the agreed e-mails and roles so the whole team uses the same ones.
+--
+--   dev@testpilot.local    DEVELOPER
+--   qa@testpilot.local     QA_ASSISTANT
+--   lead@testpilot.local   TEAM_LEAD
+--   admin@testpilot.local  ADMIN
+--
+-- Demo data created by the seed script:
+--   project "Calculator Demo" (members: dev, qa, lead)
+--   requirement "add(a, b) returns the sum of two integers"

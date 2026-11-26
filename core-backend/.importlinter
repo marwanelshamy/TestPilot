@@ -1,0 +1,32 @@
+# Architecture conformance (M2 §3.2 layer rules, tactic T23). Run: lint-imports
+[importlinter]
+root_package = app
+
+[importlinter:contract:layers]
+name = Core Backend closed layers (API -> services -> repositories/integration)
+type = layers
+containers =
+    app
+layers =
+    api
+    services
+    repositories | integration
+
+[importlinter:contract:status-writer]
+name = Only the orchestrator may import the execution repository
+type = forbidden
+source_modules =
+    app.services.project_service
+    app.services.test_case_service
+    app.services.results_service
+forbidden_modules =
+    app.repositories.execution_repository
+
+[importlinter:contract:no-db-in-integration]
+name = Integration adapters do not touch the database
+type = forbidden
+source_modules =
+    app.integration
+forbidden_modules =
+    app.repositories
+    sqlalchemy

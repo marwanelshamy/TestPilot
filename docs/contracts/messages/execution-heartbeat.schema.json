@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "testpilot/execution-heartbeat/v1",
+  "title": "ExecutionHeartbeat",
+  "description": "Runner Worker -> Core Backend (Execution Event Listener). Queue: execution.events. Sent when the job starts (moves QUEUED -> RUNNING) and every 5 s while running. Watchdog: 3 missed heartbeats -> INTERRUPTED (RUNNER_LOST).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["messageId", "schemaVersion", "type", "executionId", "workerId", "sentAt"],
+  "properties": {
+    "messageId": { "type": "string", "format": "uuid" },
+    "schemaVersion": { "const": 1 },
+    "type": { "const": "ExecutionHeartbeat" },
+    "executionId": { "type": "string", "format": "uuid" },
+    "workerId": { "type": "string", "maxLength": 64 },
+    "sentAt": { "type": "string", "format": "date-time" }
+  }
+}

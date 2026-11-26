@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  title: TestPilot AI — AI Assistance API (I2, internal)
+  version: 1.0.0
+  description: |
+    Reachable only on the internal Docker network (no published port). Consumer: Core Backend
+    `app/integration/ai_client.py` with timeout + retry + circuit breaker (P9, T1, T3).
+    Before any external call the service runs the redaction pipeline (P5, C-07) and validates
+    the model's structured output (T2). Invalid model output -> 502 AI_INVALID_OUTPUT, never stored.
+    The service has NO database and NO access to test status (ASR-3).
+servers:
+  - url: http://ai-service:8001
+paths:
+  /health:
+    get:
+      summary: Liveness plus current provider and breaker state
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, enum: [ok] }
+                  provider: { type: string, example: mock }
+                  llmCircuit: { type: string, enum: [CLOSED, OPEN, HALF_OPEN] }
+  /v1/test-suggestions:
+    post:
+      summary: Candidate pytest test cases for one requirement (FR-03)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [requirementText, language, framework]
+              properties:
+                requirementText: { type: string, maxLength: 10000 }
+                codeUnderTest: { type: string, maxLength: 20000, nullable: true }
+                language: { type: string, enum: [python] }
+                framework: { type: string, enum: [pytest] }
+                testTypes:
+                  type: array
+                  items: { type: string, enum: [NORMAL, BOUNDARY, NEGATIVE] }
+                maxSuggestions: { type: integer, minimum: 1, maximum: 10, default: 5 }
+      responses:
+        '200':
+          description: Validated suggestions
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [suggestions, providerModel]
+                properties:
+                  suggestions:
+                    type: array
+                    items:
+                      type: object
+                      required: [title, testType, testCode]
+                      properties:
+                        title: { type: string }
+                        description: { type: string }
+                        testType: { type: string, enum: [NORMAL, BOUNDARY, NEGATIVE] }
+                        testCode: { type: string, description: 'Must parse as Python and define at least one test_* function' }
+                  providerModel: { type: string, example: 'mock/mock-1' }
+                  redactions: { type: integer, description: Number of secrets removed before the LLM call }
+        '400': { $ref: '#/components/responses/Error' }
+        '502': { $ref: '#/components/responses/Error' }
+        '503': { $ref: '#/components/responses/Error' }
+        '504': { $ref: '#/components/responses/Error' }
+  /v1/failure-explanations:
+    post:
+      summary: Hypothesis for why a test failed (FR-09, C-10)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [testCode, failureMessage]
+              properties:
+                testCode: { type: string, maxLength: 20000 }
+                failureMessage: { type: string, maxLength: 4000 }
+                logExcerpt: { type: string, maxLength: 8000 }
+      responses:
+        '200':
+          description: Explanation, always labelled as an AI hypothesis
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [explanationText, providerModel, aiGenerated]
+                properties:
+                  explanationText: { type: string }
+                  providerModel: { type: string }
+                  aiGenerated: { type: boolean, enum: [true] }
+        '400': { $ref: '#/components/responses/Error' }
+        '502': { $ref: '#/components/responses/Error' }
+        '503': { $ref: '#/components/responses/Error' }
+        '504': { $ref: '#/components/responses/Error' }
+components:
+  responses:
+    Error:
+      description: |
+        400 VALIDATION_ERROR | 502 AI_INVALID_OUTPUT (model output failed validation) |
+        503 LLM_UNAVAILABLE (provider error or LLM circuit open) | 504 LLM_TIMEOUT.
+        The Core Backend maps 502/503/504, its own timeout and its open breaker to
+        `503 AI_UNAVAILABLE` for the Web UI.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code: { type: string }
+                  message: { type: string }
+                  correlationId: { type: string }
