@@ -1,0 +1,2 @@
+# The ONLY packages available to user test code (C-01: Python + pytest)
+pytest==9.2.0

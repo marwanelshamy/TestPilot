@@ -1,0 +1,4 @@
+# Runner Worker runtime dependencies (pinned to the versions tested in Phase 2)
+aio-pika==10.2.3
+docker==7.2.0
+pydantic==2.14.4

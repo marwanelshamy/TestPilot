@@ -31,10 +31,10 @@ services:
 
   runner-worker:
     build: ./runner-worker
-    env_file: .env
-    environment:
+    environment:                       # only what the worker needs: no DB, no LLM key
       AMQP_URL: amqp://testpilot:${RABBITMQ_PASSWORD}@rabbitmq:5672/
       SANDBOX_IMAGE: testpilot-sandbox:latest
+      HEARTBEAT_INTERVAL_SECONDS: ${HEARTBEAT_INTERVAL_SECONDS:-5}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock   # trusted worker only (risk R-009); never mounted into sandboxes
     depends_on:
