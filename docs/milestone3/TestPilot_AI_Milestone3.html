@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TestPilot AI — Milestone 3: Architectural Prototype</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10.2pt; line-height: 1.45; color: #1d2430; margin: 0; }
+  h1 { font-size: 19pt; color: #1f3a8a; margin: 0 0 6pt; border-bottom: 2px solid #1f3a8a; padding-bottom: 4pt; page-break-before: always; }
+  h1.first { page-break-before: auto; }
+  h2 { font-size: 13pt; color: #1f3a8a; margin: 14pt 0 5pt; }
+  h3 { font-size: 11pt; color: #273a6e; margin: 10pt 0 4pt; }
+  p { margin: 4pt 0 6pt; }
+  table { border-collapse: collapse; width: 100%; margin: 5pt 0 9pt; font-size: 9pt; page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  th, td { border: 1px solid #c9cfd8; padding: 3.5pt 5pt; text-align: left; vertical-align: top; }
+  th { background: #1f3a8a; color: #fff; font-weight: 600; }
+  td.k { background: #eef2fb; font-weight: 600; width: 22%; }
+  code { font-family: Consolas, "Cascadia Code", monospace; font-size: 8.6pt; background: #f1f3f7; padding: 0 2pt; border-radius: 2pt; }
+  pre { font-family: Consolas, monospace; font-size: 8.4pt; background: #0f172a; color: #e2e8f0; padding: 7pt 9pt; border-radius: 4pt; white-space: pre-wrap; page-break-inside: avoid; }
+  .met { color: #1b7f4b; font-weight: 700; }
+  .notmet { color: #b42318; font-weight: 700; }
+  .note { background: #f6f8fc; border-left: 3px solid #1f3a8a; padding: 5pt 8pt; margin: 6pt 0; font-size: 9.2pt; }
+  .fill { background: #fff3c4; padding: 0 3pt; }
+  .fig { text-align: center; margin: 6pt 0 10pt; page-break-inside: avoid; }
+  .cap { font-size: 8.8pt; color: #475467; font-style: italic; margin-top: 2pt; }
+  .small { font-size: 8.6pt; }
+  /* cover */
+  .cover { height: 255mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .cover .band { background: #1f3a8a; color: #fff; padding: 38pt 30pt 30pt; border-radius: 0 0 6pt 6pt; }
+  .cover .band h0 { display: block; font-size: 34pt; font-weight: 700; letter-spacing: .5pt; }
+  .cover .band .sub { font-size: 15pt; margin-top: 6pt; color: #dbe4ff; }
+  .cover table { font-size: 10.5pt; width: 80%; margin: 0 auto; }
+  .cover td, .cover th { padding: 5pt 8pt; }
+  .toc li { margin: 2pt 0; }
+</style>
+</head>
+<body>
+
+<!-- ======================================================= COVER -->
+<section class="cover">
+  <div class="band">
+    <h0>TestPilot AI</h0>
+    <div class="sub">Milestone 3 — Architectural Prototype</div>
+    <div class="sub" style="font-size:11pt">CSE4203 Principles of Software Architecture</div>
+  </div>
+  <table>
+    <tr><td class="k">Project</td><td>TestPilot AI — AI-assisted software testing platform</td></tr>
+    <tr><td class="k">Team name</td><td><span class="fill">[Team name]</span></td></tr>
+    <tr><td class="k">Milestone</td><td>Milestone 3 — Architectural Prototype</td></tr>
+    <tr><td class="k">Instructor / TA</td><td>Dr. Nada Mahmoud Hassan / Eng. Mohamed Fareh</td></tr>
+    <tr><td class="k">Date</td><td>27 November 2026</td></tr>
+    <tr><td class="k">Repository</td><td>https://github.com/marwanelshamy/TestPilot</td></tr>
+  </table>
+  <table>
+    <tr><th>Team member</th><th>Student ID</th></tr>
+    <tr><td>Marwan Mohamed Ahmed (El Shamy)</td><td><span class="fill">[ID]</span></td></tr>
+    <tr><td>Mahmoud Amr</td><td>231006563</td></tr>
+    <tr><td>Ahmed Walid</td><td>231014009</td></tr>
+    <tr><td>Nada Mohamed Awad</td><td>231006982</td></tr>
+    <tr><td>Lelwar Sadek Abdulrheem</td><td>231006900</td></tr>
+  </table>
+  <div></div>
+</section>
+
+<!-- ======================================================= CONTRIBUTION + CONTENTS -->
+<h1 class="first" style="page-break-before:always">Contribution and Contents</h1>
+<h2>Contribution table</h2>
+<table>
+  <tr><th style="width:15%">Role in M3</th><th style="width:22%">Member</th><th>Prototype work</th><th style="width:22%">Document sections</th></tr>
+  <tr><td>Member 1</td><td><span class="fill">[name]</span></td><td>Core Backend: layered structure, database & migrations, REST API, roles, approval gate, Execution Orchestrator; Phase 5 fixes (session lifecycle, admission control)</td><td>§1.1–1.2, §4 (ADR-011, 013, 018)</td></tr>
+  <tr><td>Member 2</td><td><span class="fill">[name]</span></td><td>Runner Worker, Test Sandbox image, RabbitMQ topology; Phase 4 backend ↔ RabbitMQ adapters; start-up resilience</td><td>§1.3, §4 (ADR-010, 012, 014, 017)</td></tr>
+  <tr><td>Member 3</td><td><span class="fill">[name]</span></td><td>AI Assistance Service: redaction pipeline, provider adapters (mock, Claude), circuit breaker, rate limit, cache</td><td>§4 (ADR-015, 016)</td></tr>
+  <tr><td>Member 4</td><td><span class="fill">[name]</span></td><td>Web UI (React + TypeScript, Nginx); architecture conformance review and erosion checks</td><td>§3, §6</td></tr>
+  <tr><td>Member 5</td><td><span class="fill">[name]</span></td><td>Test plan, quality-attribute experiments, end-to-end integration test; Phase 5 lead</td><td>§2, §5</td></tr>
+  <tr><td>All</td><td>Whole team</td><td>Phase 1 agreement: use cases, locked stack, API/message contracts, database schema, repository and branches (ADR-009)</td><td>review of all sections</td></tr>
+</table>
+
+<h2>Contents</h2>
+<ol class="toc">
+  <li>Working prototype — use cases, architectural structure, architectural tactics, single-command run</li>
+  <li>Quality attribute evidence — QAS-3, QAS-7, QAS-2, QAS-5, QAS-1</li>
+  <li>Architecture conformance — component-to-code mapping, erosion prevention</li>
+  <li>Design changes — ADR-009 to ADR-018</li>
+  <li>Testing — unit, contract, architecture and integration tests, how to run them</li>
+  <li>Repository and README</li>
+</ol>
+<p class="note">Terminology and IDs (FR, QAS, ASR, C, ADR, R, OI) are the ones of Milestones 1 and 2. All numbers in §2 were
+measured on the integrated system; per C-16 each response measure is reported as <b>met or not met</b>.</p>
+
+<!-- ======================================================= 1 -->
+<h1>1. Working Prototype</h1>
+<p>The prototype implements the Milestone 2 architecture as seven containers started by one command. It covers the
+complete M1 minimum demonstrable path — <i>create project → enter requirements → generate candidate tests → review/edit and
+approve → execute approved tests → real runner outcomes and logs → quality/risk summary</i> — plus a fourth use case.</p>
+
+<h2>1.1 End-to-end use cases (≥ 3 from the M1 "Must" list)</h2>
+<table>
+  <tr><th>Use case</th><th>M1 functional requirements</th><th>MoSCoW</th><th>Crosses</th><th>Status</th></tr>
+  <tr><td>UC-1 Create a project and enter requirements</td><td>FR-01, FR-02</td><td>Must</td><td>Web UI → Core Backend → PostgreSQL</td><td class="met">Done</td></tr>
+  <tr><td>UC-2 Generate, review and approve AI test cases</td><td>FR-03, FR-04, FR-05</td><td>Must</td><td>Web UI → Core Backend → AI Assistance Service → LLM adapter</td><td class="met">Done</td></tr>
+  <tr><td>UC-3 Run approved tests and see the real runner result</td><td>FR-06, FR-07 (+ FR-08 logs, FR-09 AI explanation)</td><td>Must (+ Should)</td><td>Core Backend → RabbitMQ → Runner Worker → Test Sandbox → RabbitMQ → Core Backend</td><td class="met">Done</td></tr>
+  <tr><td>UC-4 Quality overview and report</td><td>FR-12 (+ FR-10, FR-11)</td><td>Must (+ Should)</td><td>Web UI → Core Backend → PostgreSQL</td><td class="met">Done</td></tr>
+</table>
+<p>Not in the prototype, as agreed in M1/M2 (C-11): FR-13 user management, FR-14 repository import, FR-15 multiple languages.
+Project membership is created automatically for the project's creator; demo accounts share a seeded demo project.</p>
+
+<h2>1.2 Architectural structure</h2>
+<p>Style: <b>layered Core Backend + event-driven test execution</b> (ADR-001). Separate deployable units exist only where an
+ASR demands one: the Runner Worker and Test Sandbox for isolation (ASR-1), the AI Assistance Service for outage tolerance,
+privacy and replaceability (ASR-2, ASR-5), RabbitMQ for concurrent execution (ASR-4); the Execution Orchestrator stays
+inside the Core Backend so that one component owns all execution state (ASR-3).</p>
+
+<div class="fig">
+<svg viewBox="0 0 760 360" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial" font-size="11">
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#344054"/></marker>
+  </defs>
+  <path d="M158,10 H560 V96 H742 Q750,96 750,104 V292 Q750,300 742,300 H158 Q150,300 150,292 V18 Q150,10 158,10 Z" fill="none" stroke="#98a2b3" stroke-dasharray="6 4"/>
+  <text x="160" y="27" fill="#475467" font-weight="600">TestPilot AI (docker compose)</text>
+  <!-- users -->
+  <rect x="10" y="125" width="110" height="52" rx="26" fill="#1f3a8a"/><text x="65" y="148" fill="#fff" text-anchor="middle" font-weight="600">Users</text><text x="65" y="163" fill="#dbe4ff" text-anchor="middle" font-size="9">Dev · QA · Lead</text>
+  <!-- web ui -->
+  <rect x="175" y="120" width="120" height="62" rx="6" fill="#3b5bdb"/><text x="235" y="143" fill="#fff" text-anchor="middle" font-weight="600">Web UI</text><text x="235" y="158" fill="#e0e7ff" text-anchor="middle" font-size="9">React · Nginx</text><text x="235" y="171" fill="#e0e7ff" text-anchor="middle" font-size="9">:8080</text>
+  <!-- core -->
+  <rect x="335" y="110" width="140" height="82" rx="6" fill="#1a5dab"/><text x="405" y="132" fill="#fff" text-anchor="middle" font-weight="600">Core Backend</text><text x="405" y="147" fill="#e0e7ff" text-anchor="middle" font-size="9">FastAPI · layered</text><text x="405" y="160" fill="#e0e7ff" text-anchor="middle" font-size="9">Orchestrator =</text><text x="405" y="172" fill="#e0e7ff" text-anchor="middle" font-size="9">only status writer</text>
+  <!-- db -->
+  <rect x="345" y="235" width="120" height="50" rx="6" fill="#3b5bdb"/><ellipse cx="405" cy="235" rx="60" ry="8" fill="#5c7cfa"/><text x="405" y="262" fill="#fff" text-anchor="middle" font-weight="600">PostgreSQL</text><text x="405" y="276" fill="#e0e7ff" text-anchor="middle" font-size="9">single writer</text>
+  <!-- ai -->
+  <rect x="335" y="35" width="140" height="50" rx="6" fill="#3b5bdb"/><text x="405" y="56" fill="#fff" text-anchor="middle" font-weight="600">AI Assistance Service</text><text x="405" y="71" fill="#e0e7ff" text-anchor="middle" font-size="9">redaction · breaker · no DB</text>
+  <!-- broker -->
+  <rect x="515" y="125" width="100" height="52" rx="22" fill="#3b5bdb"/><text x="565" y="148" fill="#fff" text-anchor="middle" font-weight="600">RabbitMQ</text><text x="565" y="162" fill="#e0e7ff" text-anchor="middle" font-size="9">quorum + DLQ</text>
+  <!-- worker -->
+  <rect x="640" y="120" width="100" height="62" rx="6" fill="#3b5bdb"/><text x="690" y="143" fill="#fff" text-anchor="middle" font-weight="600">Runner Worker</text><text x="690" y="158" fill="#e0e7ff" text-anchor="middle" font-size="9">×2 replicas</text><text x="690" y="171" fill="#e0e7ff" text-anchor="middle" font-size="9">Docker SDK</text>
+  <!-- sandbox -->
+  <rect x="640" y="230" width="100" height="58" rx="6" fill="#b03a2e"/><text x="690" y="252" fill="#fff" text-anchor="middle" font-weight="600">Test Sandbox</text><text x="690" y="266" fill="#fde2e0" text-anchor="middle" font-size="9">1 per run · no net</text><text x="690" y="278" fill="#fde2e0" text-anchor="middle" font-size="9">non-root · RO FS</text>
+  <!-- llm -->
+  <rect x="580" y="32" width="120" height="50" rx="6" fill="#d0d5dd"/><text x="640" y="54" fill="#1d2430" text-anchor="middle" font-weight="600">LLM Provider</text><text x="640" y="69" fill="#344054" text-anchor="middle" font-size="9">mock | Claude</text>
+  <!-- arrows -->
+  <line x1="120" y1="151" x2="173" y2="151" stroke="#344054" marker-end="url(#a)"/><text x="146" y="144" text-anchor="middle" font-size="8.5">R1 HTTPS</text>
+  <line x1="295" y1="151" x2="333" y2="151" stroke="#344054" marker-end="url(#a)"/><text x="314" y="144" text-anchor="middle" font-size="8.5">R2 REST</text>
+  <line x1="405" y1="110" x2="405" y2="87" stroke="#344054" marker-end="url(#a)"/><text x="440" y="101" font-size="8.5">R3 REST+CB</text>
+  <line x1="475" y1="60" x2="578" y2="58" stroke="#344054" marker-end="url(#a)"/><text x="527" y="52" text-anchor="middle" font-size="8.5">R4 HTTPS</text>
+  <line x1="405" y1="192" x2="405" y2="226" stroke="#344054" marker-end="url(#a)"/><text x="432" y="213" font-size="8.5">R9 SQL</text>
+  <line x1="475" y1="143" x2="513" y2="143" stroke="#344054" stroke-dasharray="5 3" marker-end="url(#a)"/><text x="494" y="137" text-anchor="middle" font-size="8.5">R5</text>
+  <line x1="513" y1="162" x2="477" y2="162" stroke="#344054" stroke-dasharray="5 3" marker-end="url(#a)"/><text x="494" y="174" text-anchor="middle" font-size="8.5">R8</text>
+  <line x1="615" y1="143" x2="638" y2="143" stroke="#344054" stroke-dasharray="5 3" marker-end="url(#a)"/><text x="627" y="137" text-anchor="middle" font-size="8.5">R6</text>
+  <line x1="638" y1="162" x2="617" y2="162" stroke="#344054" stroke-dasharray="5 3" marker-end="url(#a)"/><text x="627" y="174" text-anchor="middle" font-size="8.5">R7</text>
+  <line x1="690" y1="182" x2="690" y2="228" stroke="#344054" marker-end="url(#a)"/><text x="696" y="208" font-size="8.5">R10 Docker API</text>
+  <!-- legend -->
+  <rect x="10" y="312" width="740" height="42" rx="4" fill="#f6f8fc" stroke="#d0d5dd"/>
+  <rect x="20" y="322" width="12" height="10" fill="#3b5bdb"/><text x="37" y="331" font-size="9">container (deployable unit)</text>
+  <rect x="170" y="322" width="12" height="10" fill="#1a5dab"/><text x="187" y="331" font-size="9">container owning execution status</text>
+  <rect x="345" y="322" width="12" height="10" fill="#b03a2e"/><text x="362" y="331" font-size="9">untrusted-code boundary</text>
+  <rect x="490" y="322" width="12" height="10" fill="#d0d5dd"/><text x="507" y="331" font-size="9">external system</text>
+  <line x1="20" y1="344" x2="45" y2="344" stroke="#344054" marker-end="url(#a)"/><text x="52" y="347" font-size="9">synchronous call</text>
+  <line x1="170" y1="344" x2="195" y2="344" stroke="#344054" stroke-dasharray="5 3" marker-end="url(#a)"/><text x="202" y="347" font-size="9">asynchronous AMQP message</text>
+  <text x="345" y="347" font-size="9">R1–R10: links of M2 §3.1.4 · CB = circuit breaker · dashed frame = system boundary</text>
+</svg>
+<div class="cap">Figure 1 — Container structure of the prototype as built (C4 Level 2). Source: this HTML file (SVG); PlantUML sources of the M2 views in <code>docs/diagrams/</code>.</div>
+</div>
+
+<table>
+  <tr><th>Container</th><th>Folder / image</th><th>Technology (as built)</th><th>Communication</th></tr>
+  <tr><td>Web UI</td><td><code>web-ui/</code></td><td>React 19, TypeScript, Vite; Nginx 1.27</td><td>R1 HTTPS from users; R2 REST/JSON + JWT to the Core Backend — the only upstream</td></tr>
+  <tr><td>Core Backend</td><td><code>core-backend/</code></td><td>Python 3.12, FastAPI, SQLAlchemy 2, Alembic, pika</td><td>R3 REST to AI service (timeout, retry, circuit breaker); R5/R8 AMQP; R9 SQL</td></tr>
+  <tr><td>AI Assistance Service</td><td><code>ai-service/</code></td><td>FastAPI; adapters: mock (default), Anthropic Claude</td><td>R4 HTTPS to the LLM provider; internal network only</td></tr>
+  <tr><td>Message Broker</td><td>image <code>rabbitmq:3.13</code></td><td>quorum queues, delivery limit 3, dead-letter queues</td><td>R5–R8 AMQP 0-9-1</td></tr>
+  <tr><td>Runner Worker (×2)</td><td><code>runner-worker/</code></td><td>Python, aio-pika, Docker SDK</td><td>R6/R7 AMQP; R10 Docker Engine API</td></tr>
+  <tr><td>Test Sandbox</td><td><code>sandbox-image/</code></td><td>python:3.12-slim + pytest, user <code>sandbox</code></td><td>none — <code>network_mode=none</code></td></tr>
+  <tr><td>Database</td><td><code>db/schema.sql</code>, image <code>postgres:16</code></td><td>13 M2 entities + <code>processed_message</code></td><td>reachable only from the Core Backend</td></tr>
+</table>
+
+<h2>1.3 Architectural tactics implemented (≥ 2 required)</h2>
+<table>
+  <tr><th>Tactic (Bass et al.)</th><th>Where in the code</th><th>Quality attribute / ASR</th><th>Evidence</th></tr>
+  <tr><td>Retry + timeout + <b>circuit breaker</b>, degradation (P9, T1, T3, T4)</td><td><code>core-backend/app/integration/ai_client.py</code>; <code>ai-service/app/resilience.py</code></td><td>Availability · ASR-2</td><td>QAS-2 <span class="met">MET</span></td></tr>
+  <tr><td><b>Message queue</b> with competing consumers, bounded queues (P4, T16, T17)</td><td><code>amqp_publisher.py</code>, <code>runner-worker/worker/main.py</code>, quorum queues</td><td>Scalability · ASR-4</td><td>QAS-5 <span class="met">MET</span></td></tr>
+  <tr><td>Separate entities, limit exposure, bounded execution time, detect service denial (T7, T8, T11, T13)</td><td><code>runner-worker/worker/sandbox.py</code></td><td>Security · ASR-1</td><td>QAS-3 <span class="met">MET</span></td></tr>
+  <tr><td><b>Authorize actors</b>: JWT + role matrix + version-bound approval gate (T9)</td><td><code>app/api/deps/auth.py</code>, <code>execution_repository.create_execution_if_approved</code></td><td>Security, reliability · ASR-3</td><td>QAS-7 Part A <span class="met">MET</span></td></tr>
+  <tr><td>Heartbeat + watchdog, sanity checking, transactions (T1, T2, T6), state machine (P10)</td><td><code>app/services/orchestrator/</code></td><td>Reliability · ASR-3</td><td>QAS-7 Parts B, C <span class="met">MET</span></td></tr>
+  <tr><td>Pipe-and-filter redaction, provider adapter (P5, P8, T20)</td><td><code>ai-service/app/pipeline</code>, <code>app/providers/</code></td><td>Privacy (C-07), modifiability · ASR-5</td><td>unit tests; QAS-4 protocol</td></tr>
+  <tr><td><b>Admission control</b> — bound concurrency (new in M3, ADR-018)</td><td><code>core-backend/app/api/admission.py</code></td><td>Availability under overload, performance</td><td>QAS-1 run 3</td></tr>
+</table>
+
+<h2>1.4 Running with one command</h2>
+<pre>git clone https://github.com/marwanelshamy/TestPilot.git &amp;&amp; cd TestPilot
+cp .env.example .env
+docker compose up --build        # builds 5 images, starts 7 services; UI at http://127.0.0.1:8080</pre>
+<p>The Core Backend container migrates the database (Alembic) and seeds the demo accounts on start. Verified on Windows 11
+with Docker Desktop 29.9.3 (WSL 2): all images build, all services become healthy, and the integration test passes (§5).</p>
+
+<!-- ======================================================= 2 -->
+<h1>2. Quality Attribute Evidence</h1>
+<p><b>Environment (all runs):</b> Intel i7-11850H (16 logical CPUs), Windows 11 Pro, Docker Desktop 29.9.3 on WSL 2
+(VM memory ≈ 3.7 GB), 2 Runner Worker replicas, <code>LLM_PROVIDER=mock</code>, PostgreSQL 16, RabbitMQ 3.13; sandbox limits
+30 s / 1 CPU / 256 MB / 128 processes; watchdog 5 s × 3 missed heartbeats. All requests went through the public API via
+Nginx. Scripts: <code>evidence/&lt;qas&gt;/</code>; raw results with full environment: <code>evidence/&lt;qas&gt;/results/*.json</code>.</p>
+
+<h2>2.1 Summary</h2>
+<table>
+  <tr><th>QAS</th><th>Attribute (ASR)</th><th>Proposed response measure (M1/M2)</th><th>Measured</th><th>Verdict</th></tr>
+  <tr><td>QAS-3</td><td>Security (ASR-1)</td><td>documented attack suite blocked/contained; 30 s limit enforced within 5 s</td><td>13/13 attacks blocked or contained; loop killed at 32.9 s</td><td class="met">MET</td></tr>
+  <tr><td>QAS-7</td><td>Reliability (ASR-3)</td><td>100 % unapproved rejected; 100 % crashed/invalid runs never Passed; traceable</td><td>40/40 rejected, 0 created; 10/10 crashes INTERRUPTED; fake pass INTERRUPTED</td><td class="met">MET</td></tr>
+  <tr><td>QAS-2</td><td>Availability (ASR-2)</td><td>≥ 99 % of core requests succeed in a 30 min AI outage; AI error ≤ 3 s after timeout</td><td>13,493/13,493 (100 %); AI error ≤ 0.08 s; recovered</td><td class="met">MET</td></tr>
+  <tr><td>QAS-5</td><td>Scalability (ASR-4)</td><td>100 runs in 1 min: 100 % unique IDs + terminal; ≥ 95 % start ≤ 30 s</td><td>100/100; 100 % started ≤ 30 s (p95 12.8 s)</td><td class="met">MET</td></tr>
+  <tr><td>QAS-1</td><td>Performance (not an ASR)</td><td>p95 ≤ 500 ms, p99 ≤ 1 s at 200 users, 15 min</td><td>p95 1.37 s, p99 2.07 s, 0.18 % errors (after fixing a deadlock)</td><td class="notmet">NOT MET</td></tr>
+  <tr><td>QAS-4 / QAS-6</td><td>Modifiability / Usability</td><td>≤ 8 h, ≤ 2 modules / 9 of 10 users in 5 min</td><td>protocols prepared (<code>evidence/qas4_*</code>, <code>qas6_*</code>); need team members / participants</td><td>not run</td></tr>
+</table>
+
+<h2>2.2 QAS-3 Security — isolation of untrusted test code (ASR-1) — <span class="met">MET</span></h2>
+<p><b>Method.</b> 15 test files submitted through the normal workflow (create → approve → run), one sandboxed run each.
+Every attack is written so that the test <i>passes only if the attack succeeds</i> — a PASSED attack would be a breach.
+A benign control test must pass (proves code really runs); a helper plants a marker that a test in a <i>different
+project</i> then searches for.</p>
+<table>
+  <tr><th>Attack</th><th>Outcome</th><th>Stopped by</th></tr>
+  <tr><td>read <code>/etc/shadow</code></td><td>FAILED (blocked)</td><td>non-root user (uid 10001)</td></tr>
+  <tr><td>reach the Docker socket</td><td>FAILED</td><td>socket not present</td></tr>
+  <tr><td>internet / PostgreSQL / RabbitMQ</td><td>FAILED</td><td><code>network_mode=none</code> (unreachable, no name resolution)</td></tr>
+  <tr><td>run as root · read secrets from environment</td><td>FAILED</td><td>non-root; no secrets passed to the sandbox</td></tr>
+  <tr><td>write outside <code>/work</code></td><td>FAILED</td><td>read-only root file system</td></tr>
+  <tr><td>fork bomb (500 processes) · memory bomb (2 GB)</td><td>INTERRUPTED / RESOURCE_LIMIT</td><td><code>pids_limit</code>, 256 MB limit without swap</td></tr>
+  <tr><td>fake pass with <code>os._exit(0)</code></td><td>INTERRUPTED / INVALID_REPORT</td><td>orchestrator report validation (ADR-013)</td></tr>
+  <tr><td>read data left by another run / project</td><td>FAILED</td><td>container + volume removed after every run</td></tr>
+  <tr><td>infinite loop</td><td>INTERRUPTED / TIMEOUT after <b>32.9 s</b></td><td>kill from outside by the Runner Worker (T13)</td></tr>
+</table>
+<p><b>Interpretation.</b> The isolation is a property of the container boundary (T7, T8, T11, T13), not of the test code, so it
+holds for any user or AI-generated test. The fake-pass case shows ASR-1 and ASR-3 reinforcing each other. <i>Limit:</i> a
+documented suite on one machine; kernel-level container escapes are out of scope, as QAS-3 itself states.</p>
+
+<h2>2.3 QAS-7 Reliability — execution and evidence integrity (ASR-3) — <span class="met">MET</span></h2>
+<p><b>Method.</b> (A) 40 run requests for DRAFT, REJECTED, edited-after-approval and mixed approved+draft tests. (B) 10 times:
+start a 20 s test, wait until RUNNING, <code>docker kill</code> both Runner Workers, wait for the final status, restart the workers
+so the redelivered job's late result also arrives. (C) a test that exits the interpreter before pytest writes its report.</p>
+<table>
+  <tr><th>Part</th><th>Target</th><th>Measured</th></tr>
+  <tr><td>A approval gate</td><td>100 % rejected, no execution created</td><td>40/40 <code>409 TEST_NOT_APPROVED</code>; 0 executions created</td></tr>
+  <tr><td>B runner crash</td><td>100 % non-passing terminal state, traceable</td><td>10/10 <code>INTERRUPTED / RUNNER_LOST</code> with execution ID and runner log; detected after 13.5 s (min) · 16.8 s (median) · 19.8 s (max); late results ignored</td></tr>
+  <tr><td>C invalid output</td><td>never PASSED</td><td><code>INTERRUPTED / INVALID_REPORT</code></td></tr>
+</table>
+<p><b>Interpretation.</b> Approval check and execution insert share one database transaction; only the orchestrator writes
+status; the watchdog turns silence into INTERRUPTED; <code>processed_message</code> and immutable terminal states make
+redelivery harmless. <i>Sensitivity point:</i> detection time = 3 × 5 s heartbeat window + ≤ 5 s sweep; M1's earlier
+≤ 10 s idea would need a 2 s heartbeat (more broker traffic) — a trade-off for the M4 ATAM.</p>
+
+<h2>2.4 QAS-2 Availability — AI-provider outage (ASR-2) — <span class="met">MET</span></h2>
+<p><b>Method.</b> Baseline (AI generation → 201), then <code>docker compose stop ai-service</code> for <b>30 minutes</b>. One client cycled
+through all unaffected core functions (read project, requirements, tests, executions, logs, coverage, risks; add a manual
+test); a second requested AI generation every 10 s and timed the answer. Then the AI service was restarted.</p>
+<table>
+  <tr><th>Measure</th><th>Target</th><th>Measured</th></tr>
+  <tr><td>core requests succeeding during the outage</td><td>≥ 99 %</td><td><b>13,493 / 13,493 (100 %)</b></td></tr>
+  <tr><td>AI requests answered with an actionable error</td><td>all</td><td>180 / 180 <code>503 AI_UNAVAILABLE</code></td></tr>
+  <tr><td>time to the AI error</td><td>≤ timeout (60 s) + 3 s</td><td>max 0.08 s, p95 0.06 s</td></tr>
+  <tr><td>after recovery</td><td>AI works again</td><td><code>201</code></td></tr>
+</table>
+<p><b>Interpretation.</b> The AI runs in its own container behind a timeout + circuit breaker (ADR-002, P9): its outage removes
+only AI features, and manual test entry keeps the workflow going. The breaker opened after 5 failures and answered without
+network calls. <i>Limit:</i> a stopped container fails <i>fast</i>; a provider that <i>hangs</i> until the timeout was not injected.</p>
+
+<h2>2.5 QAS-5 Scalability — 100 concurrent run requests (ASR-4) — <span class="met">MET</span></h2>
+<p><b>Method.</b> One quick approved test; 100 <code>POST /api/executions</code> spread over 60 s by 10 clients; every execution polled
+until terminal. Queue wait = <code>startedAt − createdAt</code>. <b>Tested capacity: 2 Runner Worker replicas.</b></p>
+<table>
+  <tr><th>Measure</th><th>Target</th><th>Measured</th></tr>
+  <tr><td>unique execution IDs</td><td>100 %</td><td>100 / 100 (sent in 59.9 s)</td></tr>
+  <tr><td>terminal state</td><td>100 %</td><td>100 / 100 (all PASSED)</td></tr>
+  <tr><td>start within 30 s</td><td>≥ 95 %</td><td>100 % — p50 7.5 s, p95 12.8 s, max 13.2 s</td></tr>
+</table>
+<p><b>Interpretation.</b> Requests are accepted at once (202) and queued (P4); two competing workers take one job each (T16/T17).
+Each sandbox costs ≈ 1 s start-up, so 2 workers sustain ≈ 1.7 runs/s and the queue absorbed the burst at under half the
+target wait. <i>Sensitivity point:</i> number of replicas (<code>--scale runner-worker=N</code>) vs. isolation cost (ASR-1 ↔ ASR-4 trade-off, M1 §7.5).</p>
+
+<h2>2.6 QAS-1 Performance — result retrieval under load (not an ASR) — <span class="notmet">NOT MET</span></h2>
+<p><b>Method.</b> Seeded inside the backend: one project with <b>1,000 test cases and 10,000 executions</b>. <b>200 concurrent users for
+15 minutes</b>, each loading the latest results page and one execution, 0.5 s think time, 10 s client timeout. Unloaded, one
+request takes 14–16 ms (page 1 or page 500), so indexing and pagination (T15) work.</p>
+<table>
+  <tr><th>Run</th><th>Change</th><th>Requests</th><th>Errors</th><th>p95</th><th>p99</th><th>Throughput</th><th>Backend after load</th></tr>
+  <tr><td>1</td><td>as integrated</td><td>11,774</td><td>96.6 %</td><td>1.44 s*</td><td>1.54 s*</td><td>13/s</td><td class="notmet">hung</td></tr>
+  <tr><td>2</td><td>session clean-up on the event loop</td><td>—</td><td>—</td><td>2.19 s</td><td>2.35 s</td><td>—</td><td class="notmet">hung</td></tr>
+  <tr><td>3</td><td>+ admission control (ADR-018)</td><td>69,264</td><td>0.18 %</td><td>1.37 s</td><td>2.07 s</td><td>77/s</td><td class="met">healthy</td></tr>
+</table>
+<p class="small">* run 1 latencies cover only the 3 % of requests that succeeded.</p>
+<p><b>Interpretation.</b> The experiment exposed a real defect: a <b>convoy deadlock</b> between FastAPI's 40 worker threads and the
+database pool — a live thread dump (<code>run2-pyspy-thread-dump.txt</code>) showed every thread waiting for a connection while every
+connection was held by a finished request waiting for a thread. ADR-018 fixed it (session clean-up on the event loop, explicit
+pool, <code>503 SERVICE_BUSY</code>, admission control of 25 in-flight requests): errors fell from 96.6 % to 0.18 % and the
+backend stayed healthy. The latency target is still not met because of <b>capacity</b>, not query cost: one backend process served
+≈ 77 req/s while 200 users with 0.5 s think time offer ≈ 140 req/s, so requests queue. QAS-1 is not an ASR (M1 §7.4) and
+can be met with standard techniques: more Core Backend processes or replicas, a short cache for the latest-results page, and a
+load generator on a separate machine. <i>Trade-off:</i> admission control favours availability (fast 503) over latency.</p>
+
+<!-- ======================================================= 3 -->
+<h1>3. Architecture Conformance</h1>
+<h2>3.1 Mapping: architecture views → code</h2>
+<h3>Container view (C4 L2) → service</h3>
+<table>
+  <tr><th>Container (M2 §3.1)</th><th>Code / deployment</th><th>Links as built</th></tr>
+  <tr><td>Web UI</td><td><code>web-ui/</code> → service <code>web-ui</code></td><td>R1, R2 (Nginx <code>proxy_pass</code> only to <code>core-backend:8000</code>)</td></tr>
+  <tr><td>Core Backend</td><td><code>core-backend/app/</code> → <code>core-backend</code></td><td>R3 <code>app/integration/ai_client.py</code>; R5 <code>amqp_publisher.py</code>; R8 <code>app/api/listeners/execution_events.py</code>; R9 <code>app/repositories/</code></td></tr>
+  <tr><td>AI Assistance Service</td><td><code>ai-service/app/</code> → <code>ai-service</code></td><td>R4 <code>app/providers/*</code></td></tr>
+  <tr><td>Message Broker</td><td><code>amqp_topology.py</code> = <code>runner-worker/worker/topology.py</code> → <code>rabbitmq</code></td><td>R5–R8</td></tr>
+  <tr><td>Runner Worker</td><td><code>runner-worker/worker/</code> → <code>runner-worker</code> ×2</td><td>R6/R7 <code>main.py</code>; R10 <code>sandbox.py</code></td></tr>
+  <tr><td>Test Sandbox</td><td><code>sandbox-image/</code> → image <code>testpilot-sandbox</code></td><td>started per run by the worker</td></tr>
+  <tr><td>Database</td><td><code>db/schema.sql</code> = <code>app/repositories/models.py</code>, migration <code>migrations/versions/0001</code></td><td>Core Backend only</td></tr>
+</table>
+<h3>Component view (C4 L3, Core Backend) → modules</h3>
+<table>
+  <tr><th>Component</th><th>Module</th><th>Layer</th></tr>
+  <tr><td>Auth &amp; Access Filter</td><td><code>app/api/deps/auth.py</code> (+ <code>services/auth_service.py</code>, <code>repositories/user_repository.py</code>); membership in <code>services/_access.py</code> (ADR-011)</td><td>API</td></tr>
+  <tr><td>Project API · Test Case &amp; Approval API · Execution &amp; Results API</td><td><code>app/api/routers/projects.py</code> · <code>tests.py</code> · <code>executions.py</code></td><td>API</td></tr>
+  <tr><td>Execution Event Listener</td><td><code>app/api/listeners/execution_events.py</code></td><td>API (inbound adapter)</td></tr>
+  <tr><td>Admission control (new, ADR-018)</td><td><code>app/api/admission.py</code></td><td>API (middleware)</td></tr>
+  <tr><td>Project Service · Test Case &amp; Approval Service · Results &amp; Reporting Service</td><td><code>app/services/project_service.py</code> · <code>test_case_service.py</code> · <code>results_service.py</code></td><td>Business</td></tr>
+  <tr><td>Execution Orchestrator</td><td><code>app/services/orchestrator/</code> (<code>__init__</code>, <code>state_machine</code>, <code>report_validator</code>, <code>watchdog</code>)</td><td>Business</td></tr>
+  <tr><td>Project · Test Case · Results · Execution Repository</td><td><code>app/repositories/*_repository.py</code></td><td>Data access</td></tr>
+  <tr><td>AI Service Client · Job Publisher</td><td><code>app/integration/ai_client.py</code> · <code>job_publisher.py</code> (port) + <code>amqp_publisher.py</code> (adapter)</td><td>Integration</td></tr>
+</table>
+
+<h2>3.2 How architecture erosion is prevented</h2>
+<p>Every rule below is checked automatically; a violation fails a test run.</p>
+<table>
+  <tr><th>Design rule (M2)</th><th>Guard</th><th>Location</th></tr>
+  <tr><td>Closed layers API → business → data access / integration (P1, T23)</td><td>import-linter contract <i>layers</i></td><td><code>core-backend/.importlinter</code></td></tr>
+  <tr><td>Only the orchestrator writes execution status (ASR-3, ADR-006)</td><td>import-linter contract <i>status-writer</i> + DB CHECK constraints</td><td><code>.importlinter</code>, <code>db/schema.sql</code></td></tr>
+  <tr><td>Integration adapters never touch the database</td><td>import-linter contract <i>no-db-in-integration</i></td><td><code>.importlinter</code></td></tr>
+  <tr><td>Data model = agreed contract</td><td>schema-drift test (ORM vs. <code>db/schema.sql</code>)</td><td><code>core-backend/tests/unit/test_schema_drift.py</code></td></tr>
+  <tr><td>Interfaces I1, I2, I4 honoured by both sides</td><td>OpenAPI / JSON-Schema contract tests</td><td>each service's <code>tests/</code></td></tr>
+  <tr><td>Both AMQP clients declare identical queues</td><td>topology equality test</td><td><code>core-backend/tests/unit/test_amqp.py</code></td></tr>
+  <tr><td>Deliberately missing links: only the core has DB credentials; sandbox has no network; only UI and broker console publish ports; only the AI service has internet egress; Docker socket only in the Runner Worker; ≥ 2 workers</td><td>deployment rules on <code>docker-compose.yml</code></td><td><code>tests/architecture/test_architecture_rules.py</code></td></tr>
+  <tr><td>Runner and AI service import no DB library; runner never decides PASSED; AI service has no path to test status; UI calls only <code>/api</code>; Python + pytest only</td><td>code rules</td><td><code>tests/architecture/test_architecture_rules.py</code> (17 rules)</td></tr>
+</table>
+<p><b>Review result (Phase 4, Member 4).</b> Every container and component of M2 maps to code; no M2 boundary, style, ASR or pattern was
+removed; the 15 differences found are recorded as design changes in §4. Full review: <code>docs/architecture/conformance.md</code>.</p>
+
+<!-- ======================================================= 4 -->
+<h1>4. Design Changes (ADRs)</h1>
+<p>No Milestone 2 decision was superseded. ADR-002, ADR-003 and ADR-007, still <i>Proposed</i> in M2, are now <b>Accepted</b>: the integrated
+system confirmed them (D-01 and D-04 closed). The ten new ADRs below refine or add to M2; full records in the course template:
+<code>docs/adr/ADR-009 … ADR-018</code>.</p>
+<table>
+  <tr><th style="width:9%">ADR</th><th style="width:22%">Decision</th><th>Context and alternatives</th><th style="width:28%">Consequences</th></tr>
+  <tr><td>ADR-009</td><td>Additive contract refinements</td><td>M2 lacked manual test entry, a version on approval, a broker-down answer, termination enums, idempotency storage. Alt.: hide gaps in code.</td><td>+ ASR-3 enforced at API, orchestrator and DB levels. − more endpoints and one table.</td></tr>
+  <tr><td>ADR-010</td><td>Quorum queues, delivery limit 3, DLQs</td><td>Poison jobs would loop for ever. Alt.: header retry counter; discard on failure.</td><td>+ every job ends (QAS-5/7). − identical declarations needed on all clients (tested).</td></tr>
+  <tr><td>ADR-011</td><td>Membership check in the business layer</td><td>Checking it in the filter would break closed layers. Alt.: filter calls repositories.</td><td>+ layers stay closed. − authorization split over two places (tested).</td></tr>
+  <tr><td>ADR-012</td><td>pika (sync) in the core; listener thread</td><td>Core is synchronous; aio-pika needs async DB or loop bridging. Alt.: aio-pika, Celery.</td><td>+ no architectural change; reconnect verified. − two AMQP libraries.</td></tr>
+  <tr><td>ADR-013</td><td>Strict runner-report validation</td><td>"Valid output" undefined in ADR-006. Alt.: trust any XML; runner decides.</td><td>+ forged/partial reports never PASS. − import errors shown as INVALID_REPORT.</td></tr>
+  <tr><td>ADR-014</td><td>Sandbox hardening</td><td>Read-only FS needs a volume for copying tests; fork bombs. Alt.: writable FS; VM/gVisor.</td><td>+ QAS-3 met. − Docker socket in the worker (R-009); ≈ 1 s start-up per run.</td></tr>
+  <tr><td>ADR-015</td><td>Mock LLM by default, Claude adapter, code only on opt-in</td><td>OI-003 open; no budget (C-08); privacy (C-07). Alt.: one hosted LLM; self-hosted model.</td><td>+ free, offline, reproducible; ASR-5 proven with a real adapter. − simple mock suggestions.</td></tr>
+  <tr><td>ADR-016</td><td>Timeout hierarchy 90 s &gt; 60 s &gt; 50 s &gt; 25 s</td><td>A 10 s core timeout would cut off real LLM answers. Alt.: 10 s everywhere.</td><td>+ each layer fails before the one above. − a hanging provider can hold a request 60 s.</td></tr>
+  <tr><td>ADR-017</td><td>Worker connection retry, AMQP-port healthcheck, restart policy</td><td>First integrated run: a worker exited for good when the broker was not yet accepting connections. Alt.: ignore; healthcheck only.</td><td>+ full worker pool after any start order. − containers come back after manual stops.</td></tr>
+  <tr><td>ADR-018</td><td>Session lifecycle, pool sizing, <b>admission control</b></td><td>QAS-1 deadlocked the backend (threads vs. connections). Alt.: bigger pool only (failed in run 2); full async rewrite.</td><td>+ 0.18 % errors, no hang, 10 tests. − 503s under overload; latency still capacity-bound.</td></tr>
+</table>
+
+<h3>Example in full — ADR-018 (template of Appendix A)</h3>
+<table>
+  <tr><td class="k">ADR number &amp; title</td><td>ADR-018: Database session lifecycle, explicit pool sizing and admission control</td></tr>
+  <tr><td class="k">Status</td><td>Accepted</td></tr>
+  <tr><td class="k">Date &amp; deciders</td><td>27 November 2026 — Member 1 with Member 5 (found by the QAS-1 load test, Phase 5)</td></tr>
+  <tr><td class="k">Context</td><td>Under 200 concurrent users all 40 API worker threads waited for a database connection while every connection was held by a finished request waiting for a thread to serialise its response; cancelled requests also leaked connections. The backend stayed hung after the load stopped — an availability failure, not only a performance one.</td></tr>
+  <tr><td class="k">Alternatives considered</td><td>1. Bigger pool only — tried (run 2), the deadlock returned. 2. Fully async core (async SQLAlchemy) — removes the thread pool but is a large late change. 3. Async session dependency + explicit pool (20 + 10, 10 s timeout, <code>503 SERVICE_BUSY</code>) + admission control (25 in flight, FIFO wait on the event loop, 503 after 5 s, health exempt) — chosen.</td></tr>
+  <tr><td class="k">Decision</td><td>Option 3: <code>app/core/database.py</code>, <code>app/api/errors.py</code>, new <code>app/api/admission.py</code>; limits configurable in <code>.env</code>.</td></tr>
+  <tr><td class="k">Rationale</td><td>Keeping in-flight work below both the thread pool and the connection pool guarantees that a finishing request gets a thread and returns its connection; overload becomes fast, explicit 503s instead of a hang.</td></tr>
+  <tr><td class="k">Consequences</td><td>+ QAS-1 run 3: 69,264 requests, 0.18 % errors, health answering throughout, no stuck connections. + 10 regression tests. − Some requests get 503 under overload. − Latency target still not met (capacity); follow-up: more backend processes/replicas, short cache.</td></tr>
+</table>
+
+<!-- ======================================================= 5 -->
+<h1>5. Testing</h1>
+<h2>5.1 Automated tests</h2>
+<table>
+  <tr><th>Suite</th><th>Tests</th><th>What it proves</th></tr>
+  <tr><td>Core Backend — unit, API, contract</td><td>75</td><td>UC-1..UC-4 over HTTP; role matrix; approval in one transaction; version-bound approval; report validation (never PASSED without valid evidence); state machine; watchdog; idempotent events; AI circuit breaker; AMQP publisher/listener; session lifecycle; admission control; schema drift. Passes on SQLite and PostgreSQL.</td></tr>
+  <tr><td>Runner Worker</td><td>31</td><td>sandbox isolation options; timeout/OOM/error outcomes; container always removed; heartbeats; ack/reject/requeue; connection retry; I4 contract; real pytest report shape</td></tr>
+  <tr><td>AI Assistance Service</td><td>29</td><td>redaction of 7 secret kinds; output validation; 400/502/503/504 mapping; breaker; rate limit; cache; no code to an external LLM by default; Claude adapter request + error mapping</td></tr>
+  <tr><td>Web UI</td><td>14</td><td>API client errors; role matrix; approve-this-version; AI-outage message; run polling stops at a terminal state</td></tr>
+  <tr><td>Architecture rules (repo)</td><td>17</td><td>deployment and code rules of §3.2</td></tr>
+  <tr><td><b>Integration test across component boundaries</b></td><td>7</td><td>see §5.2</td></tr>
+  <tr><td><b>Total</b></td><td><b>173</b></td><td>all passing on commit <code>46a136e</code></td></tr>
+</table>
+
+<h2>5.2 Integration test across component boundaries</h2>
+<p><code>tests/e2e/test_e2e_flow.py</code> drives the composed system through the public API only and crosses every container boundary
+of Figure 1: Nginx → Core Backend → PostgreSQL; Core Backend → AI Assistance Service; Core Backend → RabbitMQ → Runner Worker →
+Docker sandbox → RabbitMQ → Core Backend. Steps: create project and requirement (UC-1); AI generation stored as DRAFT (UC-2); QA
+Assistant cannot approve (403); unapproved run rejected (409); approved AI test + failing test run in the sandbox → FAILED with
+per-test PASSED/FAILED and runner evidence (UC-3); AI explanation labelled as hypothesis; coverage and risks reflect the
+failure (UC-4). <b>Result: 7 passed</b> against <code>docker compose up</code>.</p>
+
+<h2>5.3 How to run the tests</h2>
+<pre># per Python service (core-backend, runner-worker, ai-service)
+python -m venv .venv &amp;&amp; .venv/Scripts/pip install -r requirements-dev.txt     # Linux/macOS: .venv/bin/pip
+.venv/Scripts/python -m pytest
+.venv/Scripts/lint-imports                      # core-backend only: layer rules
+
+# web-ui
+npm install &amp;&amp; npm test
+
+# repository level (architecture rules + integration test)
+python -m venv evidence/.venv &amp;&amp; evidence/.venv/Scripts/pip install -r evidence/requirements.txt
+evidence/.venv/Scripts/python -m pytest tests/architecture
+docker compose up -d --build
+TESTPILOT_URL=http://127.0.0.1:8080/api evidence/.venv/Scripts/python -m pytest tests/e2e -v</pre>
+
+<!-- ======================================================= 6 -->
+<h1>6. Repository and README</h1>
+<h2>6.1 Repository structure</h2>
+<pre>TestPilot/
+├── docker-compose.yml        one-command run (7 services)        ├── docs/
+├── .env.example              configuration template              │   ├── phase1/        agreed use cases, stack, contracts, team split
+├── web-ui/                   Web UI container                    │   ├── contracts/     OpenAPI + JSON Schemas (I1, I2, I4)
+├── core-backend/             Core Backend container              │   ├── architecture/  conformance review
+├── ai-service/               AI Assistance Service container     │   ├── adr/           ADR index + ADR-009 … ADR-018
+├── runner-worker/            Runner Worker container             │   ├── testing/       test plan
+├── sandbox-image/            Test Sandbox image                  │   └── milestone3/    this document (source)
+├── db/                       schema.sql (data contract)          ├── evidence/        QAS scripts, results, RESULTS.md
+                                                                   └── tests/           architecture rules, E2E integration test</pre>
+<p>Each container folder has its own README (purpose, modules, run and test commands), its <code>Dockerfile</code>, pinned
+<code>requirements.txt</code> and tests.</p>
+
+<h2>6.2 README contents (required items)</h2>
+<table>
+  <tr><th>Required by M3</th><th>Where in <code>README.md</code></th></tr>
+  <tr><td>Overview</td><td>"Overview": purpose, human-in-the-loop principle, the four use cases</td></tr>
+  <tr><td>Architecture summary</td><td>"Architecture summary": container diagram, container table with technology and tactics, links to M2/ADRs/contracts</td></tr>
+  <tr><td>Setup and run instructions</td><td>"Setup and run": prerequisites, <code>cp .env.example .env</code>, <code>docker compose up --build</code>, URLs, stop</td></tr>
+  <tr><td>Demo account credentials</td><td>"Demo accounts": table below; plus a two-minute demo walkthrough</td></tr>
+  <tr><td>Tests</td><td>"Tests": every suite with its command; link to the test plan</td></tr>
+</table>
+<table>
+  <tr><th>Demo role</th><th>E-mail</th><th>Password</th></tr>
+  <tr><td>Developer</td><td><code>dev@testpilot.local</code></td><td><code>TestPilot#2026</code></td></tr>
+  <tr><td>QA Assistant</td><td><code>qa@testpilot.local</code></td><td><code>TestPilot#2026</code></td></tr>
+  <tr><td>Team Lead</td><td><code>lead@testpilot.local</code></td><td><code>TestPilot#2026</code></td></tr>
+</table>
+
+<h2>6.3 Branches and commit history</h2>
+<p>Branching model (Phase 1): <code>main</code> (submission) ← <code>develop</code> ← <code>integration/phase4</code>, <code>phase5/evidence</code> ←
+one <code>feature/*</code> branch per area: <code>feature/core-api</code> (Member 1), <code>feature/runner-worker</code> (Member 2),
+<code>feature/ai-service</code> (Member 3), <code>feature/web-ui</code> (Member 4), <code>feature/testing-evidence</code> (Member 5).
+Commits use the convention <code>&lt;area&gt;: &lt;summary&gt;</code>; each member's work is on their feature branch and merged into
+<code>integration/phase4</code>. <span class="fill">[Team: confirm the commit history shows every member before submission.]</span></p>
+
+<h2>References</h2>
+<p class="small">
+[1] L. Bass, P. Clements, and R. Kazman, <i>Software Architecture in Practice</i>, 4th ed. Boston, MA, USA: Addison-Wesley, 2021.<br>
+[2] M. Richards and N. Ford, <i>Fundamentals of Software Architecture</i>, 2nd ed. Sebastopol, CA, USA: O'Reilly Media, 2025.<br>
+[3] S. Brown, "The C4 model for visualising software architecture." [Online]. Available: https://c4model.com<br>
+[4] M. Nygard, "Documenting Architecture Decisions," 2011. [Online]. Available: https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions<br>
+[5] TestPilot AI Team, "TestPilot AI – Milestone 1 Consolidated Document," CSE4203, Oct. 2026.<br>
+[6] TestPilot AI Team, "TestPilot AI – Software Architecture Document, Milestone 2," CSE4203, Nov. 2026.<br>
+[7] Docker Inc., "Docker Engine security" and "Compose file reference." [Online]. Available: https://docs.docker.com<br>
+[8] RabbitMQ, "Quorum Queues" and "Dead Letter Exchanges." [Online]. Available: https://www.rabbitmq.com/docs<br>
+[9] FastAPI, "Dependencies with yield." [Online]. Available: https://fastapi.tiangolo.com<br>
+[10] SQLAlchemy, "Connection Pooling." [Online]. Available: https://docs.sqlalchemy.org
+</p>
+</body>
+</html>
