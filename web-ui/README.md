@@ -39,7 +39,7 @@ an INTERRUPTED run states that nothing was recorded as passed (QAS-7).
 ```bash
 npm install
 npm run dev          # http://localhost:5173, proxies /api to http://localhost:8000 (API_TARGET to change)
-npm test             # 14 component/unit tests (Vitest + Testing Library), no backend needed
+npm test             # 16 component/unit tests (Vitest + Testing Library), no backend needed
 npm run typecheck
 npm run build        # production build in dist/
 ```
