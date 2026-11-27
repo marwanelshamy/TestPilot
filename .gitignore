@@ -28,3 +28,4 @@ Thumbs.db
 
 # evidence raw outputs (commit the summarized reports, not raw dumps)
 evidence/**/raw/
+*.tsbuildinfo
