@@ -11,13 +11,16 @@ These files are the **contract between team members**. Code in Phase 2 must matc
 
 ## 1. RabbitMQ topology
 
-| Name | Type | Durable | Producer → Consumer | Notes |
-|---|---|---|---|---|
-| `execution.requests` | queue | yes | Job Publisher → Runner Worker | prefetch 1, manual ack after `ExecutionFinished` is published; DLX → `execution.requests.dlq` |
-| `execution.events` | queue | yes | Runner Worker → Execution Event Listener | carries `ExecutionHeartbeat` and `ExecutionFinished` (field `type`); ack only after DB commit; DLX → `execution.events.dlq` |
-| `execution.requests.dlq`, `execution.events.dlq` | queue | yes | — | messages that fail schema validation 3 times |
+All four queues are **quorum queues** (durable) declared identically by every client — code: `runner-worker/worker/topology.py`.
 
-All messages: `content_type=application/json`, `delivery_mode=2` (persistent), `message_id` = body `messageId`.
+| Name | Producer → Consumer | Arguments / notes |
+|---|---|---|
+| `execution.requests` | Job Publisher → Runner Worker | `x-delivery-limit=3`, dead-letter → `execution.requests.dlq`; prefetch 1; acked only after `ExecutionFinished` is confirmed by the broker |
+| `execution.events` | Runner Worker → Execution Event Listener | `x-delivery-limit=3`, dead-letter → `execution.events.dlq`; carries `ExecutionHeartbeat` and `ExecutionFinished` (field `type`); acked only after DB commit |
+| `execution.requests.dlq`, `execution.events.dlq` | — | invalid messages (rejected without requeue) and messages redelivered more than 3 times |
+
+Dead-lettering uses the default exchange (`x-dead-letter-exchange: ""`, `x-dead-letter-routing-key: <dlq>`).
+All messages: `content_type=application/json`, `delivery_mode=2` (persistent), `message_id` = body `messageId`, publisher confirms on.
 
 ## 2. Execution state machine (P10, only the orchestrator moves it)
 
@@ -87,5 +90,6 @@ erDiagram
 | 4 | `termination_reason` values `INVALID_REPORT`, `RESOURCE_LIMIT`, `INTERNAL_ERROR`; `outcome: RESOURCE_LIMIT` | M2 named reasons in prose only; needed as enums |
 | 5 | Table `processed_message`; columns `execution.time_limit_seconds`, `execution_evidence.truncated` | Idempotent event handling (R-011), watchdog needs the limit, OI-008 cap must be visible |
 | 6 | DB CHECK constraints on terminal states | Second line of defence for ASR-3 |
+| 7 | Quorum queues with `x-delivery-limit=3` instead of plain durable queues | A crash-looping (poison) job is dead-lettered instead of being redelivered forever |
 
 No container, boundary, style or ASR changes.
