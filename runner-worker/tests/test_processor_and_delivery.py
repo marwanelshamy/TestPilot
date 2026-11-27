@@ -99,3 +99,44 @@ def test_broker_failure_requeues_the_job():
     msg = FakeMessage(json.dumps(job_dict()).encode())
     assert run(handle_delivery(msg, JobProcessor(SlowSandbox(), "w1", 1), Recorder(fail=True))) == "requeued"
     assert msg.result == "nack(requeue=True)"
+
+
+# ------------------------------------------------------------- broker start-up race (found in Phase 4)
+def test_first_connection_is_retried_until_broker_accepts(monkeypatch):
+    import aio_pika
+
+    from worker import main as worker_main
+
+    async def no_sleep(_):
+        return None
+
+    monkeypatch.setattr(worker_main.asyncio, "sleep", no_sleep)
+    calls = []
+
+    async def connect(url):
+        calls.append(url)
+        if len(calls) < 3:
+            raise aio_pika.exceptions.AMQPConnectionError("Connect call failed")
+        return "connection"
+
+    assert run(worker_main.connect_with_retry(connect, "amqp://x/")) == "connection"
+    assert len(calls) == 3
+
+
+def test_retry_can_be_bounded(monkeypatch):
+    import aio_pika
+    import pytest
+
+    from worker import main as worker_main
+
+    async def no_sleep(_):
+        return None
+
+    monkeypatch.setattr(worker_main.asyncio, "sleep", no_sleep)
+
+    async def connect(url):
+        raise ConnectionRefusedError(111, "refused")
+
+    with pytest.raises(OSError):
+        run(worker_main.connect_with_retry(connect, "amqp://x/", attempts=2))
+    _ = aio_pika  # imported for symmetry with the test above

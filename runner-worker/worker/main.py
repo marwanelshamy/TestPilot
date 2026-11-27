@@ -57,9 +57,25 @@ async def handle_delivery(message, processor: JobProcessor, emit) -> str:
     return "acked"
 
 
+async def connect_with_retry(connect, url: str, max_delay: float = 30.0, attempts: int | None = None):
+    """connect_robust() only reconnects AFTER a first success; if the broker is not accepting connections yet
+    (container start order), retry with capped exponential backoff instead of exiting. Found in Phase 4."""
+    delay, n = 1.0, 0
+    while True:
+        n += 1
+        try:
+            return await connect(url)
+        except (aio_pika.exceptions.AMQPConnectionError, OSError) as e:
+            if attempts is not None and n >= attempts:
+                raise
+            log.warning("broker not reachable yet (%s); retry %d in %.0f s", type(e).__name__, n, delay)
+            await asyncio.sleep(delay)
+            delay = min(delay * 2, max_delay)
+
+
 async def run(settings: WorkerSettings) -> None:
     processor = JobProcessor(DockerSandbox(settings), settings.worker_id, settings.heartbeat_interval_seconds)
-    connection = await aio_pika.connect_robust(settings.amqp_url)
+    connection = await connect_with_retry(aio_pika.connect_robust, settings.amqp_url)
     async with connection:
         channel = await connection.channel(publisher_confirms=True)
         await channel.set_qos(prefetch_count=1)  # one job per worker at a time

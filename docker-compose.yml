@@ -7,12 +7,14 @@ name: testpilot
 services:
   web-ui:
     build: ./web-ui
+    restart: unless-stopped            # recover from crashes / start-order races (availability)
     ports: ["8080:80"]                 # the only port users need
     depends_on: [core-backend]
     networks: [edge, internal]
 
   core-backend:
     build: ./core-backend
+    restart: unless-stopped            # recover from crashes / start-order races (availability)
     env_file: .env
     environment:
       DATABASE_URL: postgresql+psycopg://testpilot:${POSTGRES_PASSWORD}@postgres:5432/testpilot
@@ -26,12 +28,14 @@ services:
 
   ai-service:
     build: ./ai-service
+    restart: unless-stopped            # recover from crashes / start-order races (availability)
     env_file: .env                     # LLM_PROVIDER, LLM_API_KEY (never committed, C-08)
     networks: [internal, egress]       # egress only so the adapter can reach the hosted LLM
     # NOTE: no DATABASE_URL — the AI service has no database access (ASR-3)
 
   runner-worker:
     build: ./runner-worker
+    restart: unless-stopped            # recover from crashes / start-order races (availability)
     environment:                       # only what the worker needs: no DB, no LLM key
       AMQP_URL: amqp://testpilot:${RABBITMQ_PASSWORD}@rabbitmq:5672/
       SANDBOX_IMAGE: testpilot-sandbox:latest
@@ -72,7 +76,8 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     ports: ["15672:15672"]             # management UI for the demo / evidence
     healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      # "ping" only proves the node is up; this proves the AMQP port accepts connections (Phase 4 finding)
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_port_connectivity"]
       interval: 5s
       retries: 10
     networks: [internal]

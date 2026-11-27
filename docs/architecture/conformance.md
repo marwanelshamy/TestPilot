@@ -78,3 +78,21 @@ No container, boundary, style, ASR or pattern was removed or added.
    it reproduces pytest's report exactly; the validator's exit-code and completeness checks block the
    simple variants (`os._exit(0)` → INTERRUPTED). Inherent limit: tests are the user's own code. Record in ATAM.
 4. Project membership has no management UI (FR-13 is future work): only a project's creator is a member.
+
+## 6. Phase 4 integration run (docker compose, real containers)
+
+Environment: Windows 11, Docker Desktop 29.9.3 (WSL 2), 2 Runner Worker replicas, `LLM_PROVIDER=mock`.
+
+| Check | Result |
+|---|---|
+| `docker compose build` — all 5 images (web-ui, core-backend, ai-service, runner-worker, sandbox) | built |
+| Core Backend start: Alembic migration on PostgreSQL, demo seed, AMQP listener | OK |
+| `tests/e2e` (7 tests) through Nginx → Core → PostgreSQL / AI service / RabbitMQ → Runner Worker → **Docker sandbox** → Core | **7 passed** |
+| Run result in the real UI (served by Nginx): per-test PASSED/FAILED + pytest stdout from the sandbox | OK |
+| Broker restarted under a running Core Backend: listener and publisher reconnect | OK |
+
+Integration findings fixed in Phase 4:
+
+| # | Finding | Fix |
+|---|---|---|
+| 13 | A Runner Worker exited for good when RabbitMQ was "healthy" but not yet accepting AMQP connections (`connect_robust` only reconnects after a first success); the pool silently halved | worker retries its first connection with capped backoff (`connect_with_retry`, 2 tests); broker healthcheck now `check_port_connectivity`; `restart: unless-stopped` on long-running services |
