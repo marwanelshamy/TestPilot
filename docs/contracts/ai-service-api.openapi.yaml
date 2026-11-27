@@ -65,6 +65,7 @@ paths:
                         testCode: { type: string, description: 'Must parse as Python and define at least one test_* function' }
                   providerModel: { type: string, example: 'mock/mock-1' }
                   redactions: { type: integer, description: Number of secrets removed before the LLM call }
+                  cached: { type: boolean, description: 'True when the answer came from the response cache (T18), no LLM call made' }
         '400': { $ref: '#/components/responses/Error' }
         '502': { $ref: '#/components/responses/Error' }
         '503': { $ref: '#/components/responses/Error' }
@@ -103,8 +104,8 @@ components:
   responses:
     Error:
       description: |
-        400 VALIDATION_ERROR | 502 AI_INVALID_OUTPUT (model output failed validation) |
-        503 LLM_UNAVAILABLE (provider error or LLM circuit open) | 504 LLM_TIMEOUT.
+        400 VALIDATION_ERROR | 502 AI_INVALID_OUTPUT (model output failed validation, refusal, truncation) |
+        503 LLM_UNAVAILABLE (provider error, LLM circuit open, or rate limit - details.reason) | 504 LLM_TIMEOUT.
         The Core Backend maps 502/503/504, its own timeout and its open breaker to
         `503 AI_UNAVAILABLE` for the Web UI.
       content:
