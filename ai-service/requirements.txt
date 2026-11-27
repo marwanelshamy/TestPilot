@@ -1,0 +1,5 @@
+# AI Assistance Service runtime dependencies (pinned to the versions tested in Phase 2)
+fastapi==0.165.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.4
+anthropic==2.14.0
