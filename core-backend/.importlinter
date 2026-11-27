@@ -1,6 +1,7 @@
 # Architecture conformance (M2 §3.2 layer rules, tactic T23). Run: lint-imports
 [importlinter]
 root_package = app
+include_external_packages = True
 
 [importlinter:contract:layers]
 name = Core Backend closed layers (API -> services -> repositories/integration)

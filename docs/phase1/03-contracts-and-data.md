@@ -58,7 +58,7 @@ Valid = parses as JUnit XML, `testsuite` counts match the `testcase` elements, a
 
 All project-scoped actions also require project membership. ADMIN is reserved for FR-13 (future).
 
-## 4. Data model (14 M2 entities + 1 technical table)
+## 4. Data model (13 M2 entities + 1 technical table)
 
 ```mermaid
 erDiagram
