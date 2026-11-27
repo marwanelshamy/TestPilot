@@ -1,3 +1,4 @@
 # Experiment + E2E dependencies (talk to the system over HTTP only)
 httpx==0.29.0
 pytest==9.2.0
+PyYAML==6.0.4

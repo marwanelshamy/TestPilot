@@ -19,10 +19,11 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name
 def build_publisher(settings: Settings) -> JobPublisher:
     if settings.job_publisher == "log":
         return LogJobPublisher()
-    raise RuntimeError(
-        f"JOB_PUBLISHER={settings.job_publisher!r} is not available yet "
-        "(the AMQP adapter is added by the Runner/RabbitMQ owner in Phase 2/4)"
-    )
+    if settings.job_publisher == "amqp":
+        from app.integration.amqp_publisher import AmqpJobPublisher
+
+        return AmqpJobPublisher(settings.amqp_url)
+    raise RuntimeError(f"Unknown JOB_PUBLISHER={settings.job_publisher!r} (supported: log, amqp)")
 
 
 def create_app(
@@ -43,12 +44,22 @@ def create_app(
     )
     watchdog = Watchdog(settings, publisher)
     run_watchdog = settings.watchdog_enabled if start_watchdog is None else start_watchdog
+    # Execution events come back over AMQP only when jobs go out over AMQP (Phase 4 wiring, link R8)
+    listener = None
+    if settings.job_publisher == "amqp":
+        from app.api.listeners.execution_events import ExecutionEventListener
+
+        listener = ExecutionEventListener(settings, publisher)
 
     @asynccontextmanager
     async def lifespan(_: FastAPI):
         if run_watchdog:
             watchdog.start()
+        if listener:
+            listener.start()
         yield
+        if listener:
+            listener.stop()
         if run_watchdog:
             watchdog.stop()
 
