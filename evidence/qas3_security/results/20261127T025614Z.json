@@ -1,0 +1,183 @@
+{
+  "environment": {
+    "timestamp": "2026-11-27T02:56:14.212090+00:00",
+    "label": "i7-11850H laptop, Windows 11, Docker Desktop 29.9.3/WSL2, 2 workers",
+    "baseUrl": "http://127.0.0.1:8080/api",
+    "os": "Windows-11-10.0.26300-SP0",
+    "cpuCount": 16,
+    "python": "3.12.10",
+    "gitCommit": "d7754c9",
+    "dockerVersion": "29.9.3",
+    "runnerWorkerReplicas": 2
+  },
+  "qas": "QAS-3",
+  "verdict": "MET",
+  "cases": [
+    {
+      "case": "control_benign",
+      "attempt": "normal test must PASS",
+      "status": "PASSED",
+      "reason": "COMPLETED",
+      "testResult": "PASSED",
+      "runSeconds": 1.506846,
+      "executionId": "e921cf13-71fe-4b1f-b9dc-c99f000b18c6",
+      "failure": "",
+      "ok": true
+    },
+    {
+      "case": "read_shadow",
+      "attempt": "read a protected system file",
+      "status": "FAILED",
+      "reason": "COMPLETED",
+      "testResult": "FAILED",
+      "runSeconds": 1.043739,
+      "executionId": "e470603e-f8cf-469a-9684-272bcf31c19d",
+      "failure": "PermissionError: [Errno 13] Permission denied: '/etc/shadow'",
+      "ok": true
+    },
+    {
+      "case": "docker_socket",
+      "attempt": "reach the Docker daemon (host takeover)",
+      "status": "FAILED",
+      "reason": "COMPLETED",
+      "testResult": "FAILED",
+      "runSeconds": 0.948918,
+      "executionId": "3f11020a-17c7-43c3-b040-cf9c4755ce81",
+      "failure": "AssertionError: assert False\n +  where False = <function exists at 0x7bfcc95c7e20>('/var/run/docker.sock')\n +    where <function exists at 0x7bfcc95c7e20> = <module 'posixpath' (frozen)>.exists\n +    ",
+      "ok": true
+    },
+    {
+      "case": "network_internet",
+      "attempt": "open a connection to the internet",
+      "status": "FAILED",
+      "reason": "COMPLETED",
+      "testResult": "FAILED",
+      "runSeconds": 2.032819,
+      "executionId": "ae4ad7a1-f2cf-43b8-ba00-046c019f4a5f",
+      "failure": "OSError: [Errno 101] Network is unreachable",
+      "ok": true
+    },
+    {
+      "case": "network_database",
+      "attempt": "reach PostgreSQL (other projects' data)",
+      "status": "FAILED",
+      "reason": "COMPLETED",
+      "testResult": "FAILED",
+      "runSeconds": 1.016936,
+      "executionId": "a4f97849-d2ab-4d84-b701-89567bbe98c8",
+      "failure": "socket.gaierror: [Errno -3] Temporary failure in name resolution",
+      "ok": true
+    },
+    {
+      "case": "network_broker",
+      "attempt": "reach RabbitMQ (forge results)",
+      "status": "FAILED",
+      "reason": "COMPLETED",
+      "testResult": "FAILED",
+      "runSeconds": 1.014728,
+      "executionId": "89ec1644-37d5-404a-b6d1-55e218068719",
+      "failure": "socket.gaierror: [Errno -3] Temporary failure in name resolution",
+      "ok": true
+    },
+    {
+      "case": "run_as_root",
+      "attempt": "run as root",
+      "status": "FAILED",
+      "reason": "COMPLETED",
+      "testResult": "FAILED",
+      "runSeconds": 1.043739,
+      "executionId": "7a9d2a22-e7e4-41a5-bf39-a703e13d8d80",
+      "failure": "assert 10001 == 0\n +  where 10001 = <built-in function geteuid>()\n +    where <built-in function geteuid> = os.geteuid",
+      "ok": true
+    },
+    {
+      "case": "secrets_in_env",
+      "attempt": "read service secrets from the environment",
+      "status": "FAILED",
+      "reason": "COMPLETED",
+      "testResult": "FAILED",
+      "runSeconds": 0.871487,
+      "executionId": "44c30aa7-9bfc-4015-b139-c63988f1f732",
+      "failure": "assert False\n +  where False = any(<generator object test_attack.<locals>.<genexpr> at 0x79e94bb4da40>)",
+      "ok": true
+    },
+    {
+      "case": "write_system_dir",
+      "attempt": "modify the image outside /work",
+      "status": "FAILED",
+      "reason": "COMPLETED",
+      "testResult": "FAILED",
+      "runSeconds": 0.930386,
+      "executionId": "482efdba-73cd-49cc-8c3e-5985673f8512",
+      "failure": "OSError: [Errno 30] Read-only file system: '/usr/local/lib/tp_owned.txt'",
+      "ok": true
+    },
+    {
+      "case": "fork_bomb",
+      "attempt": "start 500 processes",
+      "status": "INTERRUPTED",
+      "reason": "RESOURCE_LIMIT",
+      "testResult": "NOT_RUN",
+      "runSeconds": 4.659352,
+      "executionId": "20da739e-7311-4c5d-9eaf-f9b5556e0376",
+      "failure": "",
+      "ok": true
+    },
+    {
+      "case": "memory_bomb",
+      "attempt": "allocate 2 GB",
+      "status": "INTERRUPTED",
+      "reason": "RESOURCE_LIMIT",
+      "testResult": "NOT_RUN",
+      "runSeconds": 1.930994,
+      "executionId": "1bc740ae-f4dc-449d-9924-40e118f81527",
+      "failure": "",
+      "ok": true
+    },
+    {
+      "case": "fake_pass_exit",
+      "attempt": "fake a pass with os._exit(0) before pytest writes its report",
+      "status": "INTERRUPTED",
+      "reason": "INVALID_REPORT",
+      "testResult": "NOT_RUN",
+      "runSeconds": 0.904515,
+      "executionId": "bc03ab15-056e-4fee-8465-0ba21a1996b3",
+      "failure": "",
+      "ok": true
+    },
+    {
+      "case": "plant_marker",
+      "attempt": "leave data behind for the next run (setup for cross_run_leak)",
+      "status": "PASSED",
+      "reason": "COMPLETED",
+      "testResult": "PASSED",
+      "runSeconds": 0.8408,
+      "executionId": "07b19921-3d2b-430b-9ee8-5fdd4e873a91",
+      "failure": "",
+      "ok": true
+    },
+    {
+      "case": "cross_run_leak",
+      "attempt": "read data left by a previous run / project",
+      "status": "FAILED",
+      "reason": "COMPLETED",
+      "testResult": "FAILED",
+      "runSeconds": 0.841309,
+      "executionId": "0d5f6194-aa73-4544-9e0b-bfe3d4852d4f",
+      "failure": "assert []",
+      "ok": true
+    },
+    {
+      "case": "infinite_loop",
+      "attempt": "run forever (must be killed at the time limit)",
+      "status": "INTERRUPTED",
+      "reason": "TIMEOUT",
+      "testResult": "NOT_RUN",
+      "runSeconds": 32.922373,
+      "executionId": "d628ab59-3377-413b-a50c-ea2c93fab498",
+      "failure": "",
+      "ok": true
+    }
+  ],
+  "target": "all attacks not PASSED; 30 s loop killed within 35 s"
+}
