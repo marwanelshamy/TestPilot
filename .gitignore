@@ -31,3 +31,4 @@ evidence/**/raw/
 
 # local databases
 *.db
+*.tsbuildinfo
