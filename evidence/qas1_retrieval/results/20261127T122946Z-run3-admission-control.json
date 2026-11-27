@@ -1,0 +1,29 @@
+{
+  "environment": {
+    "timestamp": "2026-11-27T12:29:46.410895+00:00",
+    "label": "run 3 with admission control (25 in flight) + session fix; i7-11850H laptop, Windows 11, Docker Desktop 29.9.3/WSL2; load generator on the same machine",
+    "baseUrl": "http://127.0.0.1:8080/api",
+    "os": "Windows-11-10.0.26300-SP0",
+    "cpuCount": 16,
+    "python": "3.12.10",
+    "gitCommit": "05daee4"
+  },
+  "qas": "QAS-1",
+  "verdict": "NOT MET",
+  "users": 200,
+  "minutes": 15.0,
+  "requests": 69264,
+  "errors": 125,
+  "errorRate": 0.0018046893046893048,
+  "errorKinds": [
+    "ReadTimeout"
+  ],
+  "latencySeconds": {
+    "p50": 0.9552740999934031,
+    "p95": 1.3745601999980863,
+    "p99": 2.071611600003962,
+    "max": 3.8631049999967217
+  },
+  "throughputPerSecond": 76.96,
+  "target": "p95 <= 500 ms, p99 <= 1 s"
+}

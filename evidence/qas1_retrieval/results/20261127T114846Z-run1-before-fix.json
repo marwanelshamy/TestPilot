@@ -1,0 +1,29 @@
+{
+  "environment": {
+    "timestamp": "2026-11-27T11:48:46.341187+00:00",
+    "label": "i7-11850H laptop, Windows 11, Docker Desktop 29.9.3/WSL2; load generator on the same machine",
+    "baseUrl": "http://127.0.0.1:8080/api",
+    "os": "Windows-11-10.0.26300-SP0",
+    "cpuCount": 16,
+    "python": "3.12.10",
+    "gitCommit": "05daee4"
+  },
+  "qas": "QAS-1",
+  "verdict": "NOT MET",
+  "users": 200,
+  "minutes": 15.0,
+  "requests": 11774,
+  "errors": 11368,
+  "errorRate": 0.9655172413793104,
+  "errorKinds": [
+    "ReadTimeout"
+  ],
+  "latencySeconds": {
+    "p50": 0.5125375999996322,
+    "p95": 1.4447928000008687,
+    "p99": 1.5387097999991965,
+    "max": 1.7930716000009852
+  },
+  "throughputPerSecond": 13.082222222222223,
+  "target": "p95 <= 500 ms, p99 <= 1 s"
+}

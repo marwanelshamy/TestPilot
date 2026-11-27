@@ -9,6 +9,12 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     database_url: str = "sqlite:///./testpilot-dev.db"
+    db_pool_size: int = 20
+    db_max_overflow: int = 10
+    db_pool_timeout_seconds: float = 10.0
+    # Admission control (QAS-1 finding): keep below the API thread pool (40) and the DB pool (pool + overflow)
+    max_inflight_requests: int = 25
+    admission_wait_seconds: float = 5.0
     jwt_secret: str = "dev-only-secret-change-me-0123456789abcdef"
     jwt_expires_minutes: int = 60
 

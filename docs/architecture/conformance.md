@@ -96,3 +96,10 @@ Integration findings fixed in Phase 4:
 | # | Finding | Fix |
 |---|---|---|
 | 13 | A Runner Worker exited for good when RabbitMQ was "healthy" but not yet accepting AMQP connections (`connect_robust` only reconnects after a first success); the pool silently halved | worker retries its first connection with capped backoff (`connect_with_retry`, 2 tests); broker healthcheck now `check_port_connectivity`; `restart: unless-stopped` on long-running services |
+
+Phase 5 findings fixed (from the QAS-1 load test, see `evidence/RESULTS.md`):
+
+| # | Finding | Fix |
+|---|---|---|
+| 14 | Under load, DB sessions leaked "idle in transaction": the clean-up of the sync session dependency ran on the exhausted API thread pool and was dropped when clients disconnected | `get_session` is an async generator (clean-up on the event loop, always runs); pool sized explicitly (20 + 10, timeout 10 s); pool exhaustion → `503 SERVICE_BUSY` (6 tests) |
+| 15 | Convoy deadlock between FastAPI's thread pool (40) and the DB connection pool under 200 users — backend hung until restarted | new tactic **admission control** in the API layer (`app/api/admission.py`): max 25 requests in flight, FIFO wait on the event loop, `503 SERVICE_BUSY` after 5 s, health exempt (4 tests) |

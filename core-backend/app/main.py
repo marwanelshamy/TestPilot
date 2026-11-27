@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from app.api.admission import AdmissionControl
 from app.api.errors import install_error_handlers
 from app.api.routers import auth, executions, projects, tests
 from app.core.config import Settings, get_settings
@@ -33,7 +34,12 @@ def create_app(
     start_watchdog: bool | None = None,
 ) -> FastAPI:
     settings = settings or get_settings()
-    init_engine(settings.database_url)
+    init_engine(
+        settings.database_url,
+        pool_size=settings.db_pool_size,
+        max_overflow=settings.db_max_overflow,
+        pool_timeout=settings.db_pool_timeout_seconds,
+    )
 
     publisher = publisher or build_publisher(settings)
     ai_client = ai_client or AiServiceClient(
@@ -74,6 +80,9 @@ def create_app(
     app.state.ai_client = ai_client
 
     install_error_handlers(app)
+    app.add_middleware(
+        AdmissionControl, max_inflight=settings.max_inflight_requests, wait_seconds=settings.admission_wait_seconds
+    )
     for r in (auth.router, projects.router, tests.router, executions.router):
         app.include_router(r, prefix="/api")
 

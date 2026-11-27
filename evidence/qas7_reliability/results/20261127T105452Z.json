@@ -1,0 +1,345 @@
+{
+  "environment": {
+    "timestamp": "2026-11-27T10:54:52.079037+00:00",
+    "label": "i7-11850H laptop, Windows 11, Docker Desktop 29.9.3/WSL2, 2 workers",
+    "baseUrl": "http://127.0.0.1:8080/api",
+    "os": "Windows-11-10.0.26300-SP0",
+    "cpuCount": 16,
+    "python": "3.12.10",
+    "gitCommit": "05daee4",
+    "dockerVersion": "29.9.3",
+    "runnerWorkerReplicas": 2
+  },
+  "qas": "QAS-7",
+  "partA_approvalGate": {
+    "requests": 40,
+    "rejected": 40,
+    "executionsCreated": 0,
+    "met": true,
+    "attempts": [
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "rejected",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "edited_after_approval",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      },
+      {
+        "kind": "approved_plus_draft",
+        "status": 409,
+        "code": "TEST_NOT_APPROVED",
+        "ok": true
+      }
+    ]
+  },
+  "partC_invalidOutput": {
+    "status": "INTERRUPTED",
+    "reason": "INVALID_REPORT",
+    "met": true
+  },
+  "partB_runnerCrash": {
+    "crashes": 10,
+    "nonPassingTerminal": 10,
+    "met": true,
+    "runs": [
+      {
+        "executionId": "e2b957fd-5ad1-49b8-9b11-c35ffa0176fc",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 13.49824047088623,
+        "ok": true
+      },
+      {
+        "executionId": "bd21db8f-8286-4b28-a4c9-187bb11eb531",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 17.29120397567749,
+        "ok": true
+      },
+      {
+        "executionId": "c0979ae6-28e6-4ed2-a3e3-98574bc32c11",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 15.975576877593994,
+        "ok": true
+      },
+      {
+        "executionId": "98578496-c3b1-4fac-9512-c57ba6df4950",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 16.88654851913452,
+        "ok": true
+      },
+      {
+        "executionId": "60c54b44-7628-4fe2-80d0-a0058bfc3c56",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 19.75753951072693,
+        "ok": true
+      },
+      {
+        "executionId": "e0f29828-ff4c-4597-ba46-8bac2683c4ea",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 16.692837953567505,
+        "ok": true
+      },
+      {
+        "executionId": "aaeba89e-1263-436a-8222-798ff7f742a4",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 16.82860803604126,
+        "ok": true
+      },
+      {
+        "executionId": "3941599f-40f1-4056-8b50-7331458db746",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 16.835480213165283,
+        "ok": true
+      },
+      {
+        "executionId": "efe034de-ca82-4846-bad5-67c61cae000b",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 15.838793516159058,
+        "ok": true
+      },
+      {
+        "executionId": "cc3fabb2-fb2a-40b3-9d27-2625b18bb26c",
+        "status": "INTERRUPTED",
+        "reason": "RUNNER_LOST",
+        "detectSeconds": 16.873805046081543,
+        "ok": true
+      }
+    ]
+  },
+  "verdict": "MET"
+}

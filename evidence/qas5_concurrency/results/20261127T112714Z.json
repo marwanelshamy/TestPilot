@@ -1,0 +1,32 @@
+{
+  "environment": {
+    "timestamp": "2026-11-27T11:27:14.717535+00:00",
+    "label": "i7-11850H laptop, Windows 11, Docker Desktop 29.9.3/WSL2, 2 workers",
+    "baseUrl": "http://127.0.0.1:8080/api",
+    "os": "Windows-11-10.0.26300-SP0",
+    "cpuCount": 16,
+    "python": "3.12.10",
+    "gitCommit": "05daee4",
+    "dockerVersion": "29.9.3",
+    "runnerWorkerReplicas": 2
+  },
+  "qas": "QAS-5",
+  "verdict": "MET",
+  "requests": 100,
+  "windowSeconds": 60.0,
+  "acceptedRequests": 100,
+  "uniqueIds": 100,
+  "terminal": 100,
+  "statuses": {
+    "PASSED": 100
+  },
+  "queueWaitSeconds": {
+    "p50": 7.476843,
+    "p95": 12.772628,
+    "max": 13.172511
+  },
+  "startedWithin30s": 1.0,
+  "submitSeconds": 59.89099999999962,
+  "rejectedSubmissions": [],
+  "target": "100% unique + terminal; >=95% start within 30 s at the reported worker capacity"
+}

@@ -6,6 +6,7 @@ import uuid
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from sqlalchemy.exc import TimeoutError as PoolTimeoutError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core.errors import AppError
@@ -53,6 +54,12 @@ def install_error_handlers(app: FastAPI) -> None:
             exc.status_code, "INTERNAL_ERROR"
         )
         return _body(request, exc.status_code, code, str(exc.detail))
+
+    @app.exception_handler(PoolTimeoutError)
+    async def busy(request: Request, exc: PoolTimeoutError):
+        # load shedding: no DB connection free within DB_POOL_TIMEOUT_SECONDS -> clear, retryable 503
+        log.warning("database pool exhausted [%s]", correlation_id(request))
+        return _body(request, 503, "SERVICE_BUSY", "The service is busy. Please retry in a moment.")
 
     @app.exception_handler(Exception)
     async def unexpected(request: Request, exc: Exception):

@@ -1,0 +1,1117 @@
+{
+  "environment": {
+    "timestamp": "2026-11-27T11:25:39.215195+00:00",
+    "label": "i7-11850H laptop, Windows 11, Docker Desktop 29.9.3/WSL2, 2 workers",
+    "baseUrl": "http://127.0.0.1:8080/api",
+    "os": "Windows-11-10.0.26300-SP0",
+    "cpuCount": 16,
+    "python": "3.12.10",
+    "gitCommit": "05daee4",
+    "dockerVersion": "29.9.3",
+    "runnerWorkerReplicas": 2
+  },
+  "qas": "QAS-2",
+  "verdict": "MET",
+  "outageMinutes": 30.0,
+  "baselineGenerate": 201,
+  "core": {
+    "requests": 13493,
+    "succeeded": 13493,
+    "successRate": 1.0,
+    "failures": []
+  },
+  "ai": {
+    "requests": 180,
+    "allActionable503": true,
+    "maxSeconds": 0.0779999999977008,
+    "p95Seconds": 0.06299999999828287,
+    "reasons": [
+      "CIRCUIT_OPEN",
+      "[Errno -3] Temporary failure in name resolution"
+    ],
+    "samples": [
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.062000000001717126
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0779999999977008
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.06299999999828287
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06300000000192085
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0459999999984575
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06299999999828287
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0459999999984575
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.01600000000325963
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06299999999828287
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0459999999984575
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0319999999992433
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.062000000001717126
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0779999999977008
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.06300000000192085
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.062000000001717126
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06300000000192085
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06300000000192085
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0779999999977008
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06300000000192085
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0319999999992433
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0319999999992433
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01600000000325963
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.06299999999828287
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0459999999984575
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0459999999984575
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.06300000000192085
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01600000000325963
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.046999999998661224
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0319999999992433
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.031000000002677552
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0319999999992433
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0319999999992433
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.030999999999039574
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0470000000022992
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0319999999992433
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.06199999999807915
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.01599999999962165
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.03200000000288128
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "[Errno -3] Temporary failure in name resolution",
+        "seconds": 0.014999999999417923
+      },
+      {
+        "status": 503,
+        "code": "AI_UNAVAILABLE",
+        "reason": "CIRCUIT_OPEN",
+        "seconds": 0.0319999999992433
+      }
+    ]
+  },
+  "recoveredGenerateStatus": 201,
+  "target": ">=99% core success; AI error within AI_CLIENT_TIMEOUT+3 s"
+}

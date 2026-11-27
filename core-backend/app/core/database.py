@@ -1,6 +1,6 @@
 """SQLAlchemy engine and session factory. Only the Core Backend has database credentials (ADR-004)."""
 
-from collections.abc import Iterator
+from collections.abc import AsyncIterator
 
 from sqlalchemy import create_engine, event
 from sqlalchemy.engine import Engine
@@ -16,7 +16,7 @@ _engine: Engine | None = None
 _SessionLocal: sessionmaker[Session] | None = None
 
 
-def make_engine(url: str) -> Engine:
+def make_engine(url: str, pool_size: int = 20, max_overflow: int = 10, pool_timeout: float = 10.0) -> Engine:
     if url.startswith("sqlite"):
         kwargs: dict = {"connect_args": {"check_same_thread": False}}
         if ":memory:" in url or url == "sqlite://":
@@ -28,12 +28,21 @@ def make_engine(url: str) -> Engine:
             dbapi_conn.execute("PRAGMA foreign_keys=ON")
 
         return engine
-    return create_engine(url, pool_pre_ping=True)
+    # Sized explicitly (QAS-1 finding): the 5 + 10 default starved 200 concurrent users. pool_timeout makes a
+    # request that cannot get a connection fail fast (-> 503 SERVICE_BUSY) instead of hanging for 30 s.
+    return create_engine(
+        url,
+        pool_pre_ping=True,
+        pool_size=pool_size,
+        max_overflow=max_overflow,
+        pool_timeout=pool_timeout,
+        pool_recycle=1800,
+    )
 
 
-def init_engine(url: str) -> Engine:
+def init_engine(url: str, **pool) -> Engine:
     global _engine, _SessionLocal
-    _engine = make_engine(url)
+    _engine = make_engine(url, **pool)
     _SessionLocal = sessionmaker(bind=_engine, expire_on_commit=False)
     return _engine
 
@@ -48,12 +57,19 @@ def session_factory() -> sessionmaker[Session]:
     return _SessionLocal
 
 
-def get_session() -> Iterator[Session]:
-    """FastAPI dependency: one session per request; services decide when to commit."""
+async def get_session() -> AsyncIterator[Session]:
+    """FastAPI dependency: one session per request; services decide when to commit.
+
+    Deliberately an ASYNC generator (Phase 5, QAS-1 finding): FastAPI runs the clean-up of a *sync* yield
+    dependency on the same worker-thread pool as the endpoints. Under load every thread was busy waiting for a
+    DB connection, so the clean-ups that would return connections never ran (and were dropped when clients
+    disconnected) -> all pooled connections leaked "idle in transaction" and the backend hung. An async
+    generator's `finally` runs on the event loop and always returns the connection.
+    """
     session = session_factory()()
     try:
         yield session
-    except Exception:
+    except BaseException:  # includes cancellation when the client disconnects
         session.rollback()
         raise
     finally:
