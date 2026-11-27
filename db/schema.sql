@@ -1,5 +1,5 @@
 -- TestPilot AI — PostgreSQL 16 schema (Phase 1 agreed contract)
--- Source: M2 SAD §3.6 Data view (14 entities). Owner: Core Backend ONLY (ADR-004).
+-- Source: M2 SAD §3.6 Data view (13 entities) + processed_message. Owner: Core Backend ONLY (ADR-004).
 -- Runner Worker, Test Sandbox and AI Service have no database credentials.
 -- In Phase 2 this file is turned into the first Alembic migration in core-backend/migrations.
 
