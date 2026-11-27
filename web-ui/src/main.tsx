@@ -9,6 +9,9 @@ import { ProjectPage } from "./pages/ProjectPage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { TestPage } from "./pages/TestPage";
 import "./styles.css";
+import { applyTheme } from "./theme";
+
+applyTheme();
 
 function Protected({ children }: { children: ReactNode }) {
   const { user } = useAuth();

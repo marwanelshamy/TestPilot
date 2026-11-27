@@ -1,5 +1,10 @@
 # Web UI
 
+**Design: "Aurora".** Dark navigation rail with searchable projects, calm workspace, an AI composer docked
+at the bottom (pick a requirement, paste code, send), floating run bar for selected tests, live run stepper,
+AI explanations as assistant replies, light/dark theme toggle, responsive down to phone width. Tokens and
+components: `src/styles.css`, `src/components/ui.tsx`, `src/components/icons.tsx` (inline SVG, no icon font).
+
 React 19 + TypeScript + Vite single-page app, served by Nginx in Docker (C4 container "Web UI"). It talks
 **only** to `/api` on the Core Backend — never to the AI service or RabbitMQ (M2 §3.1). It holds no business
 rules: role checks here only hide buttons; the Core Backend enforces them.
